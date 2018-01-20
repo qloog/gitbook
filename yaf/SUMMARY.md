@@ -1,6 +1,6 @@
 # Summary
 
-* [1. Introduction](README.md) 
+* [1. 简介](README.md) 
 * [2. 安装](chapter1/section1.md)
   * [2.1 Linux下的安装](chapter1/section1.1.md)
   * [2.2 macOS下的安装](chapter1/section1.2.md)

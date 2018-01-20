@@ -1,6 +1,6 @@
 # Summary
 
-** part 1 **
+_** part 1 **_
 
 * [1. 简介](README.md) 
 * [2. 安装](install/README.md)

@@ -1,5 +1,7 @@
 # Summary
 
+** part 1 **
+
 * [1. 简介](README.md) 
 * [2. 安装](install/README.md)
   * [2.1 Linux下的安装](install/linux.md)

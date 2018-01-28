@@ -37,13 +37,14 @@
 可以选用自己熟悉的一个第三方的ORM，或者封装好的类库，常见的有如下几种：
 
  - Eloquent（推荐）
+ - Medoo
  - 自己封装的类库 Model
 
  
 > 其中 `Eloquent`, `Doctrine` 内部封装的比较抽象，功能也挺强大，但是性能差一点，适用于OA、CMS等系统使用
 > `Medoo` 和 `自己封装的类库` 因为是对PDO的简单封装，所以性能相对对好很多。 适用于Web或者API等性能要求高的场景。
  
- 以`自己封装的类库` 为例：
+ 以`Eloquent` 为例：
  
  - 连接数据库
  - CURD操作
@@ -86,134 +87,6 @@ class UserModel extends Model
 }
 ```
 
-具体使用可以参考Laravel的官方使用示例
-
-
-> 以自定义的PDO封装的库为例
-
-### 自定义基础PDO的类库（Model）
-
-#### 配置
-
-```
-
-database.type = mysql                           ;声明数据库类型
-database.hosts = commondb                       ;声明数据库主机的别名，如果多台请使用,隔开
-database.default.server = commondb              ;默认的主机别名
-     
-database.commondb.read.host = 127.0.0.1         ;commondb这个库的读库主机IP
-database.commondb.read.port = 3306
-database.commondb.read.dbname = commondb
-database.commondb.read.user = shixinke
-database.commondb.read.password = 123456
-database.commondb.read.prefix = tbl_            ;commondb这个库的表前缀
-     
-database.commondb.write.host = 127.0.0.1        ;commondb这个库的写库主机IP
-database.commondb.write.port = 3306
-database.commondb.write.dbname = commondb
-database.commondb.write.user = shixinke
-database.commondb.write.password = 123456
-database.commondb.write.prefix = tbl_
-
-```
-
-#### 初始化数据库连接
-
-主要代码如下:
-
-```
-private function getDbConfig()
-{
-     return \Yaf\Registry::get('config');
-}
-
-private function getConnect()
-{
-    $config = $this->getDbConfig();
-            $type = strtolower($type);
-            if (!$this->server) {
-                $this->server = $config['database']['default']['server'];
-            }
-            $db     = $this->database ? $this->database : $config['database'][$this->server][$type]['dbname'];
-            $driver = $config['database']['type'];
-            $host   = $config['database'][$this->server][$type]['host'];
-            $port   = $config['database'][$this->server][$type]['port'];
-            $user   = $config['database'][$this->server][$type]['user'];
-            $pwd    = $config['database'][$this->server][$type]['password'];
-            $persistent = isset($config['database'][$this->server][$type]['pconnect']) ? $config['database'][$this->server][$type]['pconnect'] : 0;
-            if($persistent){
-                $option = array(PDO::ATTR_PERSISTENT => 1);
-            }else{
-                $option = array();
-            }
-     
-            if(!$port){
-                $port = 3306;
-            }
-     
-            $dsn = $driver.':host='.$host.';port='.$port.';dbname='.$db;
-     
-            try{
-                // 判断 READ, WRITE 是否是相同的配置, 是则用同一个链接, 不再创建连接
-                $read_host = $config['database'][$this->server]['read']['host'];
-                $read_port = $config['database'][$this->server]['read']['host'];
-     
-                $write_host = $config['database'][$this->server]['write']['host'];
-                $write_port = $config['database'][$this->server]['write']['host'];
-     
-                if($read_host == $write_host && $read_port == $write_port){
-                    $sington = TRUE;
-                }
-     
-                if($sington){
-                    if(isset(self::$obj)) {
-                        if(isset(self::$obj[$this->server]['read'])) {
-                            self::$obj[$this->server]['write'] = self::$obj[$this->server]['read'];
-                        }else{
-                            self::$obj[$this->server]['read'] = self::$obj[$this->server]['write'];
-                        }
-     
-                        self::$conn = self::$obj[$this->server]['write'];
-                    }
-                }
-     
-                // 读写要分离则创建两个连接
-                if(!isset(self::$obj[$this->server][$type])) {
-                    self::$conn = self::$obj[$this->server][$type] = new PDO($dsn, $user, $pwd, $option);
-                    self::$conn->query('SET NAMES `utf8`');
-                    unset($db, $driver, $host, $port, $user, $pwd, $dsn);
-                }
-            }catch(PDOException $e){
-                if(ENV == 'DEV'){
-                    throw new Exception($e->getMessage());
-                }else{
-                    //写入日志
-                }
-            }
-    
-    }
-```
-
-#### 与框架集成
-
-直接放到框架可以加载到的地方即可。比如`Library/Model/Model.php`, 然后继承该文件。
-
-
-#### 示例
-
-```
-<?php
- 
- use PHPCasts\Model
- 
- class UserModel extends Model
- {
-     
- }
-
-
-```
-
-
+具体使用可以参考Laravel的官方使用示例:[Eloquent ORM](https://laravel.com/docs/5.5/eloquent)
 
 

@@ -36,9 +36,9 @@
 
 可以选用自己熟悉的一个第三方的ORM，或者封装好的类库，常见的有如下几种：
 
+ - Eloquent（推荐）
  - 自己封装的类库 Model
- - Eloquent
- - Medoo
+
  
 > 其中 `Eloquent`, `Doctrine` 内部封装的比较抽象，功能也挺强大，但是性能差一点，适用于OA、CMS等系统使用
 > `Medoo` 和 `自己封装的类库` 因为是对PDO的简单封装，所以性能相对对好很多。 适用于Web或者API等性能要求高的场景。
@@ -50,6 +50,44 @@
  - 调试
 
 ## 使用
+
+### Eloquent
+
+Laravel的自带的ORM，可以很方便的与其他框架配合使用。
+
+#### 与框架集成
+
+```
+public function _initDbAdapter(Dispatcher $dispatcher)
+    {
+        $capsule = new Capsule();
+        $db = $this->config['database'];
+        $capsule->addConnection($db);
+        $capsule->setEventDispatcher(new LDispatcher(new LContainer));
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+
+        // 为类创建别名，便于在脚本或者其他地方直接通过DB::的形式来直接使用
+        class_alias('\Illuminate\Database\Capsule\Manager', 'DB');
+    }
+```
+
+#### 示例
+
+```
+<?php
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
+
+class UserModel extends Model
+{
+
+}
+```
+
+具体使用可以参考Laravel的官方使用示例
+
 
 > 以自定义的PDO封装的库为例
 
@@ -175,48 +213,6 @@ private function getConnect()
 
 
 ```
-
-### Eloquent
-
-Laravel的自带的ORM，可以很方便的与其他框架配合使用。
-
-#### 与框架集成
-
-```
-public function _initDbAdapter(Dispatcher $dispatcher)
-    {
-        $capsule = new Capsule();
-        $db = $this->config['database'];
-        $capsule->addConnection($db);
-        $capsule->setEventDispatcher(new LDispatcher(new LContainer));
-        $capsule->setAsGlobal();
-        $capsule->bootEloquent();
-
-        // 为类创建别名，便于在脚本或者其他地方直接通过DB::的形式来直接使用
-        class_alias('\Illuminate\Database\Capsule\Manager', 'DB');
-    }
-```
-
-#### 示例
-
-```
-<?php
-
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Model;
-
-class UserModel extends Model
-{
-
-}
-```
-
-具体使用可以参考Laravel的官方使用示例
-
-### Medoo
-
-参见官网说明：[Medoo官网](https://medoo.in/)
-
 
 
 

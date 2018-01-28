@@ -4,13 +4,16 @@
 
 代表了一个实际的请求，一般不用自己去实例化，Yaf_Application(开启命名空间后为Yaf\Application)在run以后会自动根据当前请求实例它。
 
-在控制器中，可以通过`$this->getRequest()`来获取当前请求的对象。
+在`Controller`中，可以通过`$this->getRequest()`来获取当前请求的对象。
+该对象为`Yaf\Request\Http` 的实例。
 
-### 对应的类
+如果是在命令行或者终端下运行，则 `$this->getRequest()` 为 `Yaf\Request\Cli`的实例。
 
- - Yaf\Request_Abstract
- - Yaf\Request\Http
- - Yaf\Request\Cli
+### Request类
+
+ - Yaf\Request_Abstract: Request抽象类
+ - Yaf\Request\Http：Web请求实体类，该类继承自`Yaf\Request_Abstract`
+ - Yaf\Request\Cli: 终端请求实体类，该类继承自`Yaf\Request_Abstract`
 
 ### 获取请求信息
 
@@ -65,3 +68,5 @@
 * setRequestUri: 设置请求uri
 * setRouted: 设置是否已经路由
 * setDispatched: 设置是否已经分发路由
+
+> 已上提到的方法都可以链式调用，如 `$this->getRequest()->setModuleName($module)->setControllerName($controller)` 。

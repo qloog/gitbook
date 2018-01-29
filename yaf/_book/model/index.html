@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>25. 部署 · GitBook</title>
+        <title>15. 模型-Model · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="nginx.md" />
+    <link rel="next" href="../view/" />
     
     
-    <link rel="prev" href="../server/README.md" />
+    <link rel="prev" href="../response/" />
     
 
     </head>
@@ -348,9 +348,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.15" data-path="../model/">
+        <li class="chapter active" data-level="1.15" data-path="./">
             
-                <a href="../model/">
+                <a href="./">
             
                     
                     15. 模型-Model
@@ -555,9 +555,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.24" data-path="./">
+        <li class="chapter " data-level="1.24" data-path="../deploy/">
             
-                <a href="./">
+                <a href="../deploy/">
             
                     
                     25. 部署
@@ -569,7 +569,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.24.1" data-path="nginx.md">
+        <li class="chapter " data-level="1.24.1" data-path="../deploy/nginx.md">
             
                 <span>
             
@@ -582,7 +582,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.24.2" data-path="swoole.md">
+        <li class="chapter " data-level="1.24.2" data-path="../deploy/swoole.md">
             
                 <span>
             
@@ -630,7 +630,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >25. 部署</a>
+        <a href=".." >15. 模型-Model</a>
     </h1>
 </div>
 
@@ -645,7 +645,80 @@
     
                                 <section class="normal markdown-section">
                                 
-                                
+                                <h1 id="&#x6A21;&#x578B;">&#x6A21;&#x578B;</h1>
+<h2 id="&#x6982;&#x8FF0;">&#x6982;&#x8FF0;</h2>
+<blockquote>
+<p>Yaf&#x6846;&#x67B6;&#x4E2D;&#x672C;&#x8EAB;&#x662F;&#x6CA1;&#x6709;&#x63D0;&#x4F9B;&#x6570;&#x636E;&#x5E93;&#x64CD;&#x4F5C;&#x76F8;&#x5173;&#x7684;&#x7C7B;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x96C6;&#x6210;&#x7B2C;&#x4E09;&#x65B9;&#x7684;ORM(&#x6BD4;&#x5982;Eloquent, Doctrine), &#x6216;&#x8005;&#x5BF9;PDO&#x7B80;&#x5355;&#x5C01;&#x88C5;&#x7684;&#x7C7B;&#x5E93;&#x3002;</p>
+</blockquote>
+<h2 id="&#x6A21;&#x578B;&#x5B9A;&#x4E49;">&#x6A21;&#x578B;&#x5B9A;&#x4E49;</h2>
+<ul>
+<li>&#x6587;&#x4EF6;&#x4F4D;&#x7F6E;&#xFF1A; &#x4F4D;&#x4E8E;<code>application/models</code>&#x76EE;&#x5F55;&#x4E0B;</li>
+<li>&#x547D;&#x540D;&#x89C4;&#x5219;&#xFF1A; &#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5199;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x4E0D;&#x542B; Model&#xFF0C;&#x5982;<code>User.php</code></li>
+<li>&#x7C7B;&#x5B9A;&#x4E49;&#xFF1A; &#x6587;&#x4EF6;&#x540D;+Model &#x4F5C;&#x4E3A;&#x7C7B;&#x540D;&#xFF0C;&#x5982; <code>class UserModel extend Model {}</code>  </li>
+<li><p>&#x7EE7;&#x627F;&#xFF1A; &#x7EE7;&#x627F;&#x81EA;Model&#x57FA;&#x7C7B;&#xFF08;ORM&#x6216;&#x8005;&#x57FA;&#x4E8E;PDO&#x5C01;&#x88C5;&#x597D;&#x7684;&#x57FA;&#x7C7B;&#xFF09;  </p>
+<p>&#x793A;&#x4F8B;:</p>
+<pre><code class="lang-php"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">PHPCasts</span>\<span class="hljs-title">Model</span>
+
+<span class="hljs-title">class</span> <span class="hljs-title">UserModel</span> <span class="hljs-title">extends</span> <span class="hljs-title">Model</span>
+{
+
+}
+</code></pre>
+</li>
+</ul>
+<h2 id="orm">ORM</h2>
+<h3 id="&#x57FA;&#x672C;&#x529F;&#x80FD;">&#x57FA;&#x672C;&#x529F;&#x80FD;</h3>
+<ul>
+<li>&#x8FDE;&#x63A5;&#x6570;&#x636E;&#x5E93;</li>
+<li>CURD&#x529F;&#x80FD;</li>
+</ul>
+<h3 id="&#x5B9E;&#x73B0;">&#x5B9E;&#x73B0;</h3>
+<p>&#x53EF;&#x4EE5;&#x9009;&#x7528;&#x81EA;&#x5DF1;&#x719F;&#x6089;&#x7684;&#x4E00;&#x4E2A;&#x7B2C;&#x4E09;&#x65B9;&#x7684;ORM&#xFF0C;&#x6216;&#x8005;&#x5C01;&#x88C5;&#x597D;&#x7684;&#x7C7B;&#x5E93;&#xFF0C;&#x5E38;&#x89C1;&#x7684;&#x6709;&#x5982;&#x4E0B;&#x51E0;&#x79CD;&#xFF1A;</p>
+<ul>
+<li>Eloquent&#xFF08;&#x63A8;&#x8350;&#xFF09;</li>
+<li>Medoo</li>
+<li>&#x81EA;&#x5DF1;&#x5C01;&#x88C5;&#x7684;&#x7C7B;&#x5E93; Model</li>
+</ul>
+<blockquote>
+<p>&#x5176;&#x4E2D; <code>Eloquent</code>, <code>Doctrine</code> &#x5185;&#x90E8;&#x5C01;&#x88C5;&#x7684;&#x6BD4;&#x8F83;&#x62BD;&#x8C61;&#xFF0C;&#x529F;&#x80FD;&#x4E5F;&#x633A;&#x5F3A;&#x5927;&#xFF0C;&#x4F46;&#x662F;&#x6027;&#x80FD;&#x5DEE;&#x4E00;&#x70B9;&#xFF0C;&#x9002;&#x7528;&#x4E8E;OA&#x3001;CMS&#x7B49;&#x7CFB;&#x7EDF;&#x4F7F;&#x7528;
+<code>Medoo</code> &#x548C; <code>&#x81EA;&#x5DF1;&#x5C01;&#x88C5;&#x7684;&#x7C7B;&#x5E93;</code> &#x56E0;&#x4E3A;&#x662F;&#x5BF9;PDO&#x7684;&#x7B80;&#x5355;&#x5C01;&#x88C5;&#xFF0C;&#x6240;&#x4EE5;&#x6027;&#x80FD;&#x76F8;&#x5BF9;&#x5BF9;&#x597D;&#x5F88;&#x591A;&#x3002; &#x9002;&#x7528;&#x4E8E;Web&#x6216;&#x8005;API&#x7B49;&#x6027;&#x80FD;&#x8981;&#x6C42;&#x9AD8;&#x7684;&#x573A;&#x666F;&#x3002;</p>
+</blockquote>
+<p> &#x4EE5;<code>Eloquent</code> &#x4E3A;&#x4F8B;&#xFF1A;</p>
+<ul>
+<li>&#x8FDE;&#x63A5;&#x6570;&#x636E;&#x5E93;</li>
+<li>CURD&#x64CD;&#x4F5C;</li>
+<li>&#x8C03;&#x8BD5;</li>
+</ul>
+<h2 id="&#x4F7F;&#x7528;">&#x4F7F;&#x7528;</h2>
+<h3 id="eloquent">Eloquent</h3>
+<p>Laravel&#x7684;&#x81EA;&#x5E26;&#x7684;ORM&#xFF0C;&#x53EF;&#x4EE5;&#x5F88;&#x65B9;&#x4FBF;&#x7684;&#x4E0E;&#x5176;&#x4ED6;&#x6846;&#x67B6;&#x914D;&#x5408;&#x4F7F;&#x7528;&#x3002;</p>
+<h4 id="&#x4E0E;&#x6846;&#x67B6;&#x96C6;&#x6210;">&#x4E0E;&#x6846;&#x67B6;&#x96C6;&#x6210;</h4>
+<pre><code>public function _initDbAdapter(Dispatcher $dispatcher)
+    {
+        $capsule = new Capsule();
+        $db = $this-&gt;config[&apos;database&apos;];
+        $capsule-&gt;addConnection($db);
+        $capsule-&gt;setEventDispatcher(new LDispatcher(new LContainer));
+        $capsule-&gt;setAsGlobal();
+        $capsule-&gt;bootEloquent();
+
+        // &#x4E3A;&#x7C7B;&#x521B;&#x5EFA;&#x522B;&#x540D;&#xFF0C;&#x4FBF;&#x4E8E;&#x5728;&#x811A;&#x672C;&#x6216;&#x8005;&#x5176;&#x4ED6;&#x5730;&#x65B9;&#x76F4;&#x63A5;&#x901A;&#x8FC7;DB::&#x7684;&#x5F62;&#x5F0F;&#x6765;&#x76F4;&#x63A5;&#x4F7F;&#x7528;
+        class_alias(&apos;\Illuminate\Database\Capsule\Manager&apos;, &apos;DB&apos;);
+    }
+</code></pre><h4 id="&#x793A;&#x4F8B;">&#x793A;&#x4F8B;</h4>
+<pre><code>&lt;?php
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
+
+class UserModel extends Model
+{
+
+}
+</code></pre><p>&#x5177;&#x4F53;&#x4F7F;&#x7528;&#x53EF;&#x4EE5;&#x53C2;&#x8003;Laravel&#x7684;&#x5B98;&#x65B9;&#x4F7F;&#x7528;&#x793A;&#x4F8B;:<a href="https://laravel.com/docs/5.5/eloquent" target="_blank">Eloquent ORM</a></p>
+
                                 
                                 </section>
                             
@@ -672,12 +745,12 @@
 
             
                 
-                <a href="../server/README.md" class="navigation navigation-prev " aria-label="Previous page: 24. Server配置">
+                <a href="../response/" class="navigation navigation-prev " aria-label="Previous page: 14. 响应-Response">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="nginx.md" class="navigation navigation-next " aria-label="Next page: 25.1 Nginx部署">
+                <a href="../view/" class="navigation navigation-next " aria-label="Next page: 16. 试图-View">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -688,7 +761,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"25. 部署","level":"1.24","depth":1,"next":{"title":"25.1 Nginx部署","level":"1.24.1","depth":2,"path":"deploy/nginx.md","ref":"deploy/nginx.md","articles":[]},"previous":{"title":"24. Server配置","level":"1.23","depth":1,"path":"server/README.md","ref":"server/README.md","articles":[]},"dir":"neutral"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"deploy/README.md","mtime":"2018-01-22T02:40:52.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-29T04:31:49.643Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"15. 模型-Model","level":"1.15","depth":1,"next":{"title":"16. 试图-View","level":"1.16","depth":1,"path":"view/README.md","ref":"view/README.md","articles":[]},"previous":{"title":"14. 响应-Response","level":"1.14","depth":1,"path":"response/README.md","ref":"response/README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"model/README.md","mtime":"2018-01-29T04:29:05.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-01-29T04:31:49.643Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -101,15 +101,11 @@ class RequestController extends Controller_Abstract
         Yaf\Dispatcher::getInstance()->disableView();
     }
 
-    public function indexAction()
-    {
-        var_dump(get_class_methods(Yaf\Request\Http::class));
-    }
-
     public function serverInfoAction()
     {
         $request = $this->getRequest();
 
+        // http://yaf-skel.com/example/request/serverInfo
         // output: Yaf_Request_Http
         echo "request class 所属实例: ";
         if ($request instanceof Request_Http) {
@@ -121,9 +117,9 @@ class RequestController extends Controller_Abstract
         }
         echo "<br/>";
 
-        var_dump($this->getRequest()->getServer() === $_SERVER); // true
-        var_dump($this->getRequest()->getEnv() === $_ENV); // true
-        var_dump($this->getRequest()->getLanguage()); //
+        var_dump($this->getRequest()->getServer() === $_SERVER);     // true
+        var_dump($this->getRequest()->getEnv() === $_ENV);           // true
+        var_dump($this->getRequest()->getLanguage());                // zh-CN
     }
 
     /**
@@ -133,18 +129,24 @@ class RequestController extends Controller_Abstract
     {
         $request = $this->getRequest();
 
-        var_dump($request->get('test'));
-        var_dump($request->getQuery());
-        var_dump($request->getQuery('test'));
-        var_dump($request->getPost());
-        var_dump($request->getPost('test'));
-        var_dump($request->getParams());
-        var_dump($request->getParam('uid'));
-        var_dump($request->getRequestUri());
-        var_dump($request->getMethod());
-        var_dump($request->getBaseUri());
-        var_dump($request->getCookie());
-        var_dump($request->getFiles());
+        // http://yaf-skel.com/example/request/params?user=test&uid=1
+        var_dump($request->get('user'));        // test
+        var_dump($request->getQuery());         // ['user' => test, 'uid' => 1]
+        var_dump($request->getQuery('user'));   // test
+        var_dump($request->getPost());          // empty
+        var_dump($request->getPost('user'));    // null
+        var_dump($request->getParams());        // empty 
+        var_dump($request->getParam('uid'));    // null
+        var_dump($request->getRequestUri());    // /example/request/params
+        var_dump($request->getMethod());        // GET
+        var_dump($request->getBaseUri());       // ''
+        var_dump($request->getCookie());        // emtpy
+        var_dump($request->getFiles());         // empty
+        
+        // http://yaf-skel.com/example/request/params/user/test/uid/1
+        var_dump($request->getParams());         // ['user' => test, 'uid' => 1] 
+        var_dump($request->getParam('uid'));     // 1
+        var_dump($request->getRequestUri());     // /example/request/params/user/test/uid/1
 
     }
 
@@ -168,13 +170,9 @@ class RequestController extends Controller_Abstract
     public function dispatchAction()
     {
         $this->getRequest()->setModuleName('Api');
-
         $this->getRequest()->setControllerName('Index');
-
         $this->getRequest()->setActionName('xxx');
-
         $this->getRequest()->setDispatched();
-
         $this->getRequest()->setRouted();
     }
 

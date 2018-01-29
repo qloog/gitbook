@@ -2,18 +2,27 @@
 
 ## 概述
 
-代表了一个实际的请求，一般不用自己去实例化，Yaf_Application(开启命名空间后为Yaf\Application)在run以后会自动根据当前请求实例它。
+代表了一个实际的请求，http请求或者Cli模式下的，一般不用自己去实例化，Yaf_Application(开启命名空间后为Yaf\Application)在run以后会自动根据当前请求实例它。
 
-在`Controller`中，可以通过`$this->getRequest()`来获取当前请求的对象。
-该对象为`Yaf\Request\Http` 的实例。
+在浏览器请求到的 `Controller`中，可以通过`$this->getRequest()`来获取当前请求的对象。该对象为`Yaf\Request\Http` 的实例。
 
-如果是在命令行或者终端下运行，则 `$this->getRequest()` 为 `Yaf\Request\Cli`的实例。
+如果是在命令行或者终端下运行，则 `$this->getRequest()` 为 `Yaf\Request\Simeple`的实例。
+
 
 ### Request类
 
- - Yaf\Request_Abstract: Request抽象类
- - Yaf\Request\Http：Web请求实体类，该类继承自`Yaf\Request_Abstract`
- - Yaf\Request\Cli: 终端请求实体类，该类继承自`Yaf\Request_Abstract`
+#### Yaf\Request_Abstract
+
+Request抽象类
+
+#### Yaf\Request\Http
+
+Web请求实体类，该类继承自`Yaf\Request_Abstract`
+
+#### Yaf\Request\Simple
+
+终端请求实体类，同样继承自`Yaf\Request_Abstract`, CLI模式下可以模拟一些测试，或者跑一些任务脚本。
+
 
 ### 获取请求信息
 
@@ -58,7 +67,7 @@
 * isRouted: 是否已经将路由规则进行匹配
 
 
-#### 设置分发的方法
+### 设置分发的方法
 
 * setBaseUri: 设置基本的uri,一般不需要设置，框架会自动识别
 * setModuleName: 设置模块名称
@@ -70,3 +79,107 @@
 * setDispatched: 设置是否已经分发路由
 
 > 已上提到的方法都可以链式调用，如 `$this->getRequest()->setModuleName($module)->setControllerName($controller)` 。
+
+### 完整demo
+
+```
+<?php
+
+use Yaf\Controller_Abstract;
+use Yaf\Request\Http as Request_Http;
+use Yaf\Request\Simple as Request_Simple;
+
+/**
+ * Yaf\Request\Http 和 Yaf\Request\Simple 包含的方法是一样的
+ * Class RequestController
+ */
+class RequestController extends Controller_Abstract
+{
+    public function init()
+    {
+        // 禁用模板渲染
+        Yaf\Dispatcher::getInstance()->disableView();
+    }
+
+    public function indexAction()
+    {
+        var_dump(get_class_methods(Yaf\Request\Http::class));
+    }
+
+    public function serverInfoAction()
+    {
+        $request = $this->getRequest();
+
+        // output: Yaf_Request_Http
+        echo "request class 所属实例: ";
+        if ($request instanceof Request_Http) {
+            echo "Yaf_Request_Http";
+        } elseif ($request instanceof Request_Simple) {
+            echo "Yaf_Request_Simple";
+        } else {
+            echo "yaf_Request_Abstract";
+        }
+        echo "<br/>";
+
+        var_dump($this->getRequest()->getServer() === $_SERVER); // true
+        var_dump($this->getRequest()->getEnv() === $_ENV); // true
+        var_dump($this->getRequest()->getLanguage()); //
+    }
+
+    /**
+     * 获取请求参数
+     */
+    public function paramsAction()
+    {
+        $request = $this->getRequest();
+
+        var_dump($request->get('test'));
+        var_dump($request->getQuery());
+        var_dump($request->getQuery('test'));
+        var_dump($request->getPost());
+        var_dump($request->getPost('test'));
+        var_dump($request->getParams());
+        var_dump($request->getParam('uid'));
+        var_dump($request->getRequestUri());
+        var_dump($request->getMethod());
+        var_dump($request->getBaseUri());
+        var_dump($request->getCookie());
+        var_dump($request->getFiles());
+
+    }
+
+    /**
+     * 获取请求类型
+     */
+    public function methodAction()
+    {
+        var_dump($this->getRequest()->isCli());
+        var_dump($this->getRequest()->isGet());
+        var_dump($this->getRequest()->isPost());
+        var_dump($this->getRequest()->isPut());
+        var_dump($this->getRequest()->isXmlHttpRequest()); // 是否为ajax请求
+        var_dump($this->getRequest()->isHead());
+        var_dump($this->getRequest()->isOptions());
+    }
+
+    /**
+     * 获取分发相关的方法
+     */
+    public function dispatchAction()
+    {
+        $this->getRequest()->setModuleName('Api');
+
+        $this->getRequest()->setControllerName('Index');
+
+        $this->getRequest()->setActionName('xxx');
+
+        $this->getRequest()->setDispatched();
+
+        $this->getRequest()->setRouted();
+    }
+
+}
+
+```
+
+

@@ -45,7 +45,7 @@ Yaf\Response\Http是在Yaf作为Web应用的时候默认响应载体。因继承
 ```
 final Yaf\Response\Http extends Yaf\Response_Abstract 
 {
-    protected array _code = 200 ; // 响应给请求端的HTTP状态码
+    public $_response_code; // 响应给请求端的HTTP状态码
 }
 ```
 
@@ -105,3 +105,16 @@ clearHeaders
 
 ### 类方法
 
+#### response方法
+
+默认情况下，`$this->getResponse()->response()`方法是会被自动调用的，如果手动调用，会导致最终被调用两次。
+
+如果想显示调用`response()`方法，需要启动显示配置下：
+```
+Yaf\Dispatcher::getInstance()->returnResponse(true);
+```
+
+
+## 参考
+
+ - http://blog.csdn.net/senlin1202/article/details/50800293

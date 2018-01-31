@@ -11,12 +11,12 @@ Yaf\Response_Abstract
 {
     /* Constants */
     const string DEFAULT_BODY = "content" ;
-    
+
     /* 属性 */
     protected $_header ;
     protected $_body ;
     protected $_sendheader ;
-    
+
     /* 方法 */
     public bool appendBody ( string $content [, string $key ] )
     public bool clearBody ([ string $key ] )
@@ -81,8 +81,9 @@ array (size=14)
   12 => string 'clearBody' (length=9)
   13 => string 'getBody' (length=7)
 ```
- 
+
 通过使用`var_dump(get_class_methods(Yaf\Response\Cli::class));`  得出
+
 ```
 array (size=9)
   0 => string '__construct' (length=11)
@@ -95,7 +96,9 @@ array (size=9)
   7 => string 'getBody' (length=7)
   8 => string 'response' (length=8)
 ```
+
 对比后我们可以发现, `Yaf\Response\Http` 比 `Yaf\Response\Cli`的多了 header相关的方法：
+
 ```
 setHeader
 setAllHeaders
@@ -110,11 +113,13 @@ clearHeaders
 需要注意的是，默认情况下，`$this->getResponse()->response()`方法是会被自动调用的，如果手动调用，会导致最终被调用两次。
 
 如果想显式调用`response()`方法，需要显式配置下：
+
 ```
 Yaf\Dispatcher::getInstance()->returnResponse(true);
 ```
 
 例如
+
 ```
   <?php
      $application = new Yaf\Application("config.ini"); 
@@ -135,8 +140,8 @@ Yaf\Dispatcher::getInstance()->returnResponse(true);
 public bool Yaf\Response_Abstract::setBody ( string $content [, string $key ] )
 ```
 
-$content: 是我们要传入的业务数据
-$key: body所对应的key，你可以设置一个body的键值对，如果你没有指定key，系统默认使用Yaf_Response_Abstract::DEFAULT_BODY
+$content: 是我们要传入的业务数据  
+$key: body所对应的key，你可以设置一个body的键值对，如果你没有指定key，系统默认使用Yaf\_Response\_Abstract::DEFAULT\_BODY
 
 $key 参数因为是最终调用一次，所以一般不用额外传值。
 
@@ -144,17 +149,17 @@ $key 参数因为是最终调用一次，所以一般不用额外传值。
 
 ```
     <?php
-    
-    
+
+
     class IndexController extends Yaf\Controller_Abstract
     {
         public function testAction()
         {    
             Yaf\Dispatcher::getInstance()->autoRender(false);
-            
+
             $data = ['code' => 0, 'msg'=>'SUCCESS', 'data' => ['uid'=>1, 'name' => 'test']]; // 你的业务数据
             $result = json_encode($data);
-            
+
             $response = $this->getResponse();
             $response->setBody($result);
         }
@@ -173,17 +178,17 @@ public bool Yaf\Response_Abstract::setHeader ( string $name , string $value [, b
 
 ```
     <?php
-    
-    
+
+
     class IndexController extends Yaf\Controller_Abstract
     {
         public function testAction()
         {    
             Yaf\Dispatcher::getInstance()->autoRender(false);
-            
+
             $data = ['code' => 0, 'msg'=>'SUCCESS', 'data' => ['uid'=>1, 'name' => 'test']]; // 你的业务数据
             $result = json_encode($data);
-            
+
             $response = $this->getResponse();
             $response->setHeader('Yaf-Version', "3.0.4");
             $response->setBody($result);
@@ -205,7 +210,9 @@ public bool Yaf\Response_Abstract::setHeader ( string $name , string $value [, b
 
 #### prependBody
 
-
 ## 参考
 
- - http://blog.csdn.net/senlin1202/article/details/50800293
+* [http://blog.csdn.net/senlin1202/article/details/50800293](http://blog.csdn.net/senlin1202/article/details/50800293)
+
+
+

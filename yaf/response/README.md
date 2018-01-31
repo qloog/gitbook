@@ -191,6 +191,19 @@ public bool Yaf\Response_Abstract::setHeader ( string $name , string $value [, b
     }
 ```
 
+#### setAllHeaders
+
+#### getHeader
+
+#### clearHeaders
+
+#### getBody
+
+#### clearBody
+
+#### appendBody
+
+#### prependBody
 
 
 ## 参考

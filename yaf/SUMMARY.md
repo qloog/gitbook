@@ -22,7 +22,7 @@ _** Yaf框架入门指导手册 **_
 * [13. 请求-Request](request/README.md)
 * [14. 响应-Response](response/README.md)
 * [15. 模型-Model](model/README.md)
-* [16. 试图-View](view/README.md)
+* [16. 视图-View](view/README.md)
 * [17. 多模块-Modules](modules/README.md)
 * [18. 插件-Plugin](plugin/README.md)
 * [19. 对象注册表](register/README.md)

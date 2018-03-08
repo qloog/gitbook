@@ -1,6 +1,6 @@
 # Summary
 
-_** Yaf框架入门指导手册 **_
+_ ** Yaf框架入门指导手册 ** _
 
 * [1. 简介](README.md) 
 * [2. 安装](install/README.md)
@@ -26,7 +26,8 @@ _** Yaf框架入门指导手册 **_
 * [17. 多模块-Modules](modules/README.md)
 * [18. 插件-Plugin](plugin/README.md)
 * [19. 对象注册表](register/README.md)
-* [20. 扩展](extension/README.md)
+* [20. 错误处理与异常捕获](exception/README.md)
+* [21. 扩展](extension/README.md)
   * [21.1 日志](extension/log.md)
   * [21.2 缓存](extension/cache.md)
 * [22. 工具链](console/README.md)
@@ -34,11 +35,10 @@ _** Yaf框架入门指导手册 **_
   * [22.2 Yaf框架代码生成器](console/README.md)
   * [22.3 Yaf类库](console/yaf-library.md)
   * [22.4 Yaf框架骨架代码](console/README.md)
-* [23. 错误处理与异常捕获](exception/README.md)
-* [24. Server配置](server/README.md)
-* [25. 部署](deploy/README.md)
-  * [25.1 Nginx部署](deploy/nginx.md)
-  * [25.1 Swoole部署](deploy/swoole.md)
+* [23. Server配置](server/README.md)
+* [24. 部署](deploy/README.md)
+  * [24.1 Nginx部署](deploy/nginx.md)
+  * [24.1 Swoole部署](deploy/swoole.md)
 
 
 _** Yaf框架高级进阶 **_

@@ -6,7 +6,7 @@
 
 在浏览器请求到的 `Controller`中，可以通过`$this->getRequest()`来获取当前请求的对象。该对象为`Yaf\Request\Http` 的实例。
 
-如果是在命令行或者终端下运行，则 `$this->getRequest()` 为 `Yaf\Request\Simeple`的实例。
+如果是在命令行或者终端下运行，则 `$this->getRequest()` 为 `Yaf\Request\Simple`的实例。
 
 
 ### Request类

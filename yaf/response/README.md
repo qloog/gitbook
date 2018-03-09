@@ -198,7 +198,69 @@ public bool Yaf\Response_Abstract::setHeader ( string $name , string $value [, b
 
 #### setAllHeaders
 
+批量设置响应的header头信息
+
+```
+public bool Yaf\Response_Abstract::setAllHeaders ( array $headers)
+```
+
+例如
+
+```
+    <?php
+
+
+    class IndexController extends Yaf\Controller_Abstract
+    {
+        public function testAction()
+        {    
+            Yaf\Dispatcher::getInstance()->autoRender(false);
+
+            $data = ['code' => 0, 'msg'=>'SUCCESS', 'data' => ['uid'=>1, 'name' => 'test']]; // 你的业务数据
+            $result = json_encode($data);
+
+            $response = $this->getResponse();
+            $headers = ['Yaf-Version' => "3.0.4", "X-HOST"=>"10.10.10.10"];
+            $response->setAllHeaders($headers);
+            $response->setBody($result);
+        }
+    }
+```
+
 #### getHeader
+
+获取请求的header头信息
+
+```
+public void Yaf\Response_Abstract::getHeader ( void)
+```
+
+例如
+
+```
+    <?php
+
+
+    class IndexController extends Yaf\Controller_Abstract
+    {
+        public function testAction()
+        {    
+            Yaf\Dispatcher::getInstance()->autoRender(false);
+
+            $data = ['code' => 0, 'msg'=>'SUCCESS', 'data' => ['uid'=>1, 'name' => 'test']]; // 你的业务数据
+            $result = json_encode($data);
+
+            $response = $this->getResponse();
+            $headers = ['Yaf-Version' => "3.0.4", "X-HOST"=>"10.10.10.10"];
+            
+            $response->setAllHeaders($headers);
+            
+            var_dump($response->getHeader($));
+        }
+    }
+```
+
+
 
 #### clearHeaders
 

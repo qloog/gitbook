@@ -110,7 +110,7 @@ clearHeaders
 
 #### response
 
-需要注意的是，默认情况下，`$this->getResponse()->response()`方法是会被自动调用的，如果手动调用，会导致最终被调用两次。
+> 需要注意的是，默认情况下，`$this->getResponse()->response()`方法是会被自动调用的，如果手动调用，会导致最终被调用两次。
 
 如果想显式调用`response()`方法，需要显式配置下：
 
@@ -124,7 +124,7 @@ Yaf\Dispatcher::getInstance()->returnResponse(true);
   <?php
      $application = new Yaf\Application("config.ini"); 
 
-     /* 关闭自动响应, 交给rd自己输出*/
+     /** 关闭自动响应, 由开发自己显式调用输出 */
      $response = $application->getDispatcher()->returnResponse(TRUE)->getApplication()->run();
 
      /** 输出响应*/
@@ -265,6 +265,23 @@ public void Yaf\Response_Abstract::getHeader ( void)
 #### clearHeaders
 
 #### getBody
+
+获取body内容
+
+```
+    <?php 
+
+        $response = $this->getResponse();
+        
+        $response->setBody("Hello")->setBody(" World", "footer");
+        
+        var_dump($response->getBody()); //Hello
+        var_dump($response->getBody(Response_Http::DEFAULT_BODY)); //Hello 和上面的一样
+        var_dump($response->getBody("footer")); // World
+        var_dump($response->getBody(NULL)); //get all
+    ?>
+
+```
 
 #### clearBody
 

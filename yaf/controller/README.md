@@ -130,4 +130,23 @@ class UserController extends \Yaf\Controller_Abstract
      
  }
  ```
-## 错误控制器
+ 
+## 错误处理控制器
+
+Yaf中可以通过ErrorController(application/controllers/Error.php)控制器来捕获异常与错误。
+
+捕获异常与错误需要开启相应的配置，有两种方式:
+
+ - 通过配置文件开启
+ ```
+ // conf/application.ini
+ application.dispatcher.catchException = true
+ ```
+ - 在框架启动文件中开启
+ ```
+ // application/Bootstrap.php
+ public function _initException(Yaf\Dispatcher $dispatcher)
+ {
+     $dispatcher::getInstance()->catchException(true);
+ }
+ ```

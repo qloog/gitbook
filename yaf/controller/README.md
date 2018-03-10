@@ -138,15 +138,58 @@ Yaf中可以通过ErrorController(application/controllers/Error.php)控制器来
 捕获异常与错误需要开启相应的配置，有两种方式:
 
  - 通过配置文件开启
+ 
  ```
  // conf/application.ini
  application.dispatcher.catchException = true
  ```
+ 
  - 在框架启动文件中开启
+ 
  ```
  // application/Bootstrap.php
  public function _initException(Yaf\Dispatcher $dispatcher)
  {
      $dispatcher::getInstance()->catchException(true);
  }
+ 
  ```
+ 
+ - 示例
+ 
+ ```
+    // application/controllers/Error.php
+    <?php
+    class ErrorController extends Yaf\Controller_Abstract
+    {
+        /**
+         * @param Exception $exception
+         */
+         public function errorAction(Exception $exception)
+         {
+            $constArr = array(
+                YAF\ERR\NOTFOUND\MODULE,
+                YAF\ERR\NOTFOUND\CONTROLLER,
+                YAF\ERR\DISPATCH_FAILED,
+                YAF\ERR\NOTFOUND\ACTION,
+                YAF\ERR\NOTFOUND\VIEW
+            );
+            $err = $exception->getCode();
+            if (in_array($err, $constArr)) {
+                $code = 404;
+                $message = '请求的页面不存在';
+            } else {
+                $code = 500;
+                $message = '系统出错';
+            }
+            if (ENV == 'DEV') {
+                $message = $exception->getMessage();
+            }
+            //记录日志
+            //ajax输出或显示错误模板
+            $this->getView()->assign('message', $message);
+        }
+    }
+ ```
+ 
+ > 关于异常处理后面会有详细的介绍

@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>14. 响应-Response · GitBook</title>
+        <title>4. 快速开始一个Yaf项目 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../model/" />
+    <link rel="next" href="../run-process/" />
     
     
-    <link rel="prev" href="../request/" />
+    <link rel="prev" href="../config/" />
     
 
     </head>
@@ -160,9 +160,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4" data-path="../controller/">
+        <li class="chapter active" data-level="1.4" data-path="./">
             
-                <a href="../controller/">
+                <a href="./">
             
                     
                     4. 快速开始一个Yaf项目
@@ -264,9 +264,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.12" data-path="../controller/">
+        <li class="chapter active" data-level="1.12" data-path="./">
             
-                <a href="../controller/">
+                <a href="./">
             
                     
                     12. 控制器-Controller
@@ -290,9 +290,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.14" data-path="./">
+        <li class="chapter " data-level="1.14" data-path="../response/">
             
-                <a href="./">
+                <a href="../response/">
             
                     
                     14. 响应-Response
@@ -585,7 +585,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >14. 响应-Response</a>
+        <a href=".." >4. 快速开始一个Yaf项目</a>
     </h1>
 </div>
 
@@ -600,209 +600,165 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x54CD;&#x5E94;">&#x54CD;&#x5E94;</h1>
-<h2 id="&#x6982;&#x8FF0;">&#x6982;&#x8FF0;</h2>
-<p>&#x54CD;&#x5E94;&#x5BF9;&#x8C61;&#x548C;&#x8BF7;&#x6C42;&#x5BF9;&#x8C61;&#x76F8;&#x5BF9;&#x5E94;, &#x662F;&#x53D1;&#x9001;&#x7ED9;&#x8BF7;&#x6C42;&#x7AEF;&#x7684;&#x54CD;&#x5E94;&#x7684;&#x8F7D;&#x4F53;&#x3002;</p>
-<p>&#x6211;&#x4EEC;&#x6765;&#x76F4;&#x89C2;&#x7684;&#x770B;&#x4E00;&#x4E0B;&#x7C7B;&#x7684;&#x5177;&#x4F53;&#x5185;&#x5BB9;</p>
-<pre><code>Yaf\Response_Abstract 
+                                <h1 id="&#x63A7;&#x5236;&#x5668;">&#x63A7;&#x5236;&#x5668;</h1>
+<h2 id="&#x63A7;&#x5236;&#x5668;&#x7684;&#x5B9A;&#x4E49;">&#x63A7;&#x5236;&#x5668;&#x7684;&#x5B9A;&#x4E49;</h2>
+<h3 id="&#x63A7;&#x5236;&#x5668;&#x6587;&#x4EF6;">&#x63A7;&#x5236;&#x5668;&#x6587;&#x4EF6;</h3>
+<pre><code>- &#x6587;&#x4EF6;&#x4F4D;&#x7F6E;:  &#x4F4D;&#x4E8E;application/controllers &#x6216; application/modules/controllers &#x76EE;&#x5F55;&#x4E0B;
+- &#x6587;&#x4EF6;&#x547D;&#x540D;:  &#x9996;&#x5B57;&#x6BCD;&#x5927;&#x5199;&#xFF0C;&#x4E0D;&#x542B;Controller, &#x4F8B;&#x5982;&#xFF1A;User.php
+</code></pre><h3 id="&#x63A7;&#x5236;&#x5668;&#x7C7B;">&#x63A7;&#x5236;&#x5668;&#x7C7B;</h3>
+<pre><code>- &#x7C7B;&#x5B9A;&#x4E49;: &#x63A7;&#x5236;&#x5668;&#x660E;&#x6587;&#x4EF6;&#x540D;+Controller, eg.: UserController
+- &#x7C7B;&#x7EE7;&#x627F;: &#x4E00;&#x822C;&#x9700;&#x8981;&#x7EE7;&#x627F;&#x57FA;&#x7C7B;Yaf\Controller_Abstract&#x6216;Yaf\Controller_Abstract&#x7684;&#x5B50;&#x7C7B;
+</code></pre><h3 id="&#x63A7;&#x5236;&#x5668;&#x65B9;&#x6CD5;">&#x63A7;&#x5236;&#x5668;&#x65B9;&#x6CD5;</h3>
+<pre><code>- &#x65B9;&#x6CD5;&#x5B9A;&#x4E49;: &#x65B9;&#x6CD5;&#x540D;+Action (&#x5BF9;&#x5916;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;)
+- &#x521D;&#x59CB;&#x5316;&#x65B9;&#x6CD5;: &#x4EE3;&#x66FF;&#x81EA;&#x5E26;&#x7684;__construct, &#x5728;yaf&#x4E2D;init&#x90FD;&#x4F1A;&#x88AB;&#x9ED8;&#x8BA4;&#x6267;&#x884C;
+</code></pre><h3 id="&#x793A;&#x4F8B;">&#x793A;&#x4F8B;</h3>
+<pre><code>```
+// application/controller/User.php
+&lt;?php
+
+class UserController extends \Yaf\Controller_Abstract
 {
-    /* Constants */
-    const string DEFAULT_BODY = &quot;content&quot; ;
+    // &#x8BE5;&#x65B9;&#x6CD5;&#x9ED8;&#x8BA4;&#x4F1A;&#x88AB;&#x6267;&#x884C;
+    public function init()
+    {
 
-    /* &#x5C5E;&#x6027; */
-    protected $_header ;
-    protected $_body ;
-    protected $_sendheader ;
+    }
 
-    /* &#x65B9;&#x6CD5; */
-    public bool appendBody ( string $content [, string $key ] )
-    public bool clearBody ([ string $key ] )
-    public void clearHeaders ( void )
-    private void __clone ( void )
-    public __construct ( void )
-    public void __destruct ( void )
-    public mixed getBody ([ string $key ] )
-    public void getHeader ( void )
-    public bool prependBody ( string $content [, string $key ] )
-    public void response ( void )
-    protected void setAllHeaders ( void )
-    public bool setBody ( string $content [, string $key ] )
-    public void setHeader ( void )
-    public void setRedirect ( void )
-    private void __toString ( void )
+    public function messageAction()
+    {
+
+    }
 }
-</code></pre><h2 id="&#x54CD;&#x5E94;&#x7C7B;">&#x54CD;&#x5E94;&#x7C7B;</h2>
-<h3 id="yafresponsehttp">Yaf\Response\Http</h3>
-<p>Yaf\Response\Http&#x662F;&#x5728;Yaf&#x4F5C;&#x4E3A;Web&#x5E94;&#x7528;&#x7684;&#x65F6;&#x5019;&#x9ED8;&#x8BA4;&#x54CD;&#x5E94;&#x8F7D;&#x4F53;&#x3002;&#x56E0;&#x7EE7;&#x627F;&#x81EA;<code>Yaf\Response_Abstract</code>&#xFF0C; &#x6240;&#x4EE5;<code>Yaf\Response_Abstract</code>&#x6709;&#x7684;&#x65B9;&#x6CD5;&#x8BE5;&#x7C7B;&#x91CC;&#x4E5F;&#x6709;&#x3002;</p>
-<pre><code>final Yaf\Response\Http extends Yaf\Response_Abstract 
-{
-    public $_response_code; // &#x54CD;&#x5E94;&#x7ED9;&#x8BF7;&#x6C42;&#x7AEF;&#x7684;HTTP&#x72B6;&#x6001;&#x7801;
-}
-</code></pre><h3 id="yafresponsecli">Yaf\Response\Cli</h3>
-<p>Yaf\Response\Cli&#x662F;&#x5728;Yaf&#x4F5C;&#x4E3A;&#x547D;&#x4EE4;&#x884C;&#x5E94;&#x7528;&#x7684;&#x65F6;&#x5019;&#x9ED8;&#x8BA4;&#x54CD;&#x5E94;&#x8F7D;&#x4F53;&#x3002; &#x56E0;&#x7EE7;&#x627F;&#x81EA;<code>Yaf\Response_Abstract</code>&#xFF0C; &#x6240;&#x4EE5;<code>Yaf\Response_Abstract</code>&#x6709;&#x7684;&#x65B9;&#x6CD5;&#x8BE5;&#x7C7B;&#x91CC;&#x4E5F;&#x6709;&#x3002;</p>
-<pre><code>final Yaf\Response\Cli extends Yaf\Response_Abstract 
-{
+?&gt;
+```
+</code></pre><h2 id="&#x72EC;&#x7ACB;&#x6587;&#x4EF6;action&#x7684;&#x5B9A;&#x4E49;">&#x72EC;&#x7ACB;&#x6587;&#x4EF6;Action&#x7684;&#x5B9A;&#x4E49;</h2>
+<pre><code>- &#x4F5C;&#x7528;: &#x4E3A;&#x4E86;&#x5206;&#x89E3;&#x5927;&#x7684;&#x63A7;&#x5236;&#x5668;&#xFF0C; &#x8BA9;&#x4EE3;&#x7801;&#x66F4;&#x6E05;&#x6670;
+- &#x4E0E;&#x63A7;&#x5236;&#x5668;&#x7ED1;&#x5B9A;&#xFF0C;&#x5373;&#x5C06;&#x64CD;&#x4F5C;&#x7ED1;&#x5B9A;&#x5230;&#x67D0;&#x4E2A;&#x7C7B;&#x4E0A;&#xFF0C;&#x5982;
 
-}
-</code></pre><h2 id="yafresponsehttp-&#x548C;-yafresponsecli&#x6BD4;&#x8F83;">Yaf\Response\Http &#x548C; Yaf\Response\Cli&#x6BD4;&#x8F83;</h2>
-<p>&#x901A;&#x8FC7;&#x4F7F;&#x7528;<code>var_dump(get_class_methods(Yaf\Response\Http::class));</code> &#x5F97;&#x51FA;&#xFF1A;</p>
-<pre><code>array (size=14)
-  0 =&gt; string &apos;setHeader&apos; (length=9)
-  1 =&gt; string &apos;setAllHeaders&apos; (length=13)
-  2 =&gt; string &apos;getHeader&apos; (length=9)
-  3 =&gt; string &apos;clearHeaders&apos; (length=12)
-  4 =&gt; string &apos;setRedirect&apos; (length=11)
-  5 =&gt; string &apos;response&apos; (length=8)
-  6 =&gt; string &apos;__construct&apos; (length=11)
-  7 =&gt; string &apos;__destruct&apos; (length=10)
-  8 =&gt; string &apos;__toString&apos; (length=10)
-  9 =&gt; string &apos;setBody&apos; (length=7)
-  10 =&gt; string &apos;appendBody&apos; (length=10)
-  11 =&gt; string &apos;prependBody&apos; (length=11)
-  12 =&gt; string &apos;clearBody&apos; (length=9)
-  13 =&gt; string &apos;getBody&apos; (length=7)
-</code></pre><p>&#x901A;&#x8FC7;&#x4F7F;&#x7528;<code>var_dump(get_class_methods(Yaf\Response\Cli::class));</code>  &#x5F97;&#x51FA;</p>
-<pre><code>array (size=9)
-  0 =&gt; string &apos;__construct&apos; (length=11)
-  1 =&gt; string &apos;__destruct&apos; (length=10)
-  2 =&gt; string &apos;__toString&apos; (length=10)
-  3 =&gt; string &apos;setBody&apos; (length=7)
-  4 =&gt; string &apos;appendBody&apos; (length=10)
-  5 =&gt; string &apos;prependBody&apos; (length=11)
-  6 =&gt; string &apos;clearBody&apos; (length=9)
-  7 =&gt; string &apos;getBody&apos; (length=7)
-  8 =&gt; string &apos;response&apos; (length=8)
-</code></pre><p>&#x5BF9;&#x6BD4;&#x540E;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;, <code>Yaf\Response\Http</code> &#x6BD4; <code>Yaf\Response\Cli</code>&#x7684;&#x591A;&#x4E86; header&#x76F8;&#x5173;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;</p>
-<pre><code>setHeader
-setAllHeaders
-getHeader
-clearHeaders
-</code></pre><h3 id="&#x7C7B;&#x65B9;&#x6CD5;">&#x7C7B;&#x65B9;&#x6CD5;</h3>
-<h4 id="response">response</h4>
-<blockquote>
-<p>&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;<code>$this-&gt;getResponse()-&gt;response()</code>&#x65B9;&#x6CD5;&#x662F;&#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x8C03;&#x7528;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x624B;&#x52A8;&#x8C03;&#x7528;&#xFF0C;&#x4F1A;&#x5BFC;&#x81F4;&#x6700;&#x7EC8;&#x88AB;&#x8C03;&#x7528;&#x4E24;&#x6B21;&#x3002;</p>
-</blockquote>
-<p>&#x5982;&#x679C;&#x60F3;&#x663E;&#x5F0F;&#x8C03;&#x7528;<code>response()</code>&#x65B9;&#x6CD5;&#xFF0C;&#x9700;&#x8981;&#x663E;&#x5F0F;&#x914D;&#x7F6E;&#x4E0B;&#xFF1A;</p>
-<pre><code>Yaf\Dispatcher::getInstance()-&gt;returnResponse(true);
-</code></pre><p>&#x4F8B;&#x5982;</p>
-<pre><code>  &lt;?php
-     $application = new Yaf\Application(&quot;config.ini&quot;); 
+    ```
+    &lt;?php
+     class TestController extends \Yaf\Controller_Abstract
+     {
+         public $actions = array(
+             &apos;index&apos;=&gt;&apos;actions/index.php&apos;,
+             &apos;add&apos;=&gt;&apos;actions/add.php&apos;,
+             &apos;detail&apos;=&gt;&apos;actions/detail.php&apos;  
+         );
+     }
+    ```
 
-     /** &#x5173;&#x95ED;&#x81EA;&#x52A8;&#x54CD;&#x5E94;, &#x7531;&#x5F00;&#x53D1;&#x81EA;&#x5DF1;&#x663E;&#x5F0F;&#x8C03;&#x7528;&#x8F93;&#x51FA; */
-     $response = $application-&gt;getDispatcher()-&gt;returnResponse(TRUE)-&gt;getApplication()-&gt;run();
-
-     /** &#x8F93;&#x51FA;&#x54CD;&#x5E94;*/
-     $response-&gt;response();
-  ?&gt;
-</code></pre><h4 id="setbody">setBody</h4>
-<p>&#x8BBE;&#x7F6E;&#x54CD;&#x5E94;&#x7684;Body</p>
-<pre><code>public bool Yaf\Response_Abstract::setBody ( string $content [, string $key ] )
-</code></pre><p>$content: &#x662F;&#x6211;&#x4EEC;&#x8981;&#x4F20;&#x5165;&#x7684;&#x4E1A;&#x52A1;&#x6570;&#x636E;<br>$key: body&#x6240;&#x5BF9;&#x5E94;&#x7684;key&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;body&#x7684;&#x952E;&#x503C;&#x5BF9;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x6CA1;&#x6709;&#x6307;&#x5B9A;key&#xFF0C;&#x7CFB;&#x7EDF;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;Yaf_Response_Abstract::DEFAULT_BODY</p>
-<p>$key &#x53C2;&#x6570;&#x56E0;&#x4E3A;&#x662F;&#x6700;&#x7EC8;&#x8C03;&#x7528;&#x4E00;&#x6B21;&#xFF0C;&#x6240;&#x4EE5;&#x4E00;&#x822C;&#x4E0D;&#x7528;&#x989D;&#x5916;&#x4F20;&#x503C;&#x3002;</p>
-<p>&#x4F8B;&#x5982;</p>
-<pre><code>    &lt;?php
-
-
-    class IndexController extends Yaf\Controller_Abstract
-    {
-        public function testAction()
-        {    
-            Yaf\Dispatcher::getInstance()-&gt;autoRender(false);
-
-            $data = [&apos;code&apos; =&gt; 0, &apos;msg&apos;=&gt;&apos;SUCCESS&apos;, &apos;data&apos; =&gt; [&apos;uid&apos;=&gt;1, &apos;name&apos; =&gt; &apos;test&apos;]]; // &#x4F60;&#x7684;&#x4E1A;&#x52A1;&#x6570;&#x636E;
-            $result = json_encode($data);
-
-            $response = $this-&gt;getResponse();
-            $response-&gt;setBody($result);
-        }
-    }
-</code></pre><h4 id="setheader">setHeader</h4>
-<p>&#x8BBE;&#x7F6E;&#x54CD;&#x5E94;&#x7684;header&#x5934;&#x4FE1;&#x606F;</p>
-<pre><code>public bool Yaf\Response_Abstract::setHeader ( string $name , string $value [, bool $replace ] )
-</code></pre><p>&#x4F8B;&#x5982;</p>
-<pre><code>    &lt;?php
-
-
-    class IndexController extends Yaf\Controller_Abstract
-    {
-        public function testAction()
-        {    
-            Yaf\Dispatcher::getInstance()-&gt;autoRender(false);
-
-            $data = [&apos;code&apos; =&gt; 0, &apos;msg&apos;=&gt;&apos;SUCCESS&apos;, &apos;data&apos; =&gt; [&apos;uid&apos;=&gt;1, &apos;name&apos; =&gt; &apos;test&apos;]]; // &#x4F60;&#x7684;&#x4E1A;&#x52A1;&#x6570;&#x636E;
-            $result = json_encode($data);
-
-            $response = $this-&gt;getResponse();
-            $response-&gt;setHeader(&apos;Yaf-Version&apos;, &quot;3.0.4&quot;);
-            $response-&gt;setBody($result);
-        }
-    }
-</code></pre><h4 id="setallheaders">setAllHeaders</h4>
-<p>&#x6279;&#x91CF;&#x8BBE;&#x7F6E;&#x54CD;&#x5E94;&#x7684;header&#x5934;&#x4FE1;&#x606F;</p>
-<pre><code>public bool Yaf\Response_Abstract::setAllHeaders ( array $headers)
-</code></pre><p>&#x4F8B;&#x5982;</p>
-<pre><code>    &lt;?php
-
-
-    class IndexController extends Yaf\Controller_Abstract
-    {
-        public function testAction()
-        {    
-            Yaf\Dispatcher::getInstance()-&gt;autoRender(false);
-
-            $data = [&apos;code&apos; =&gt; 0, &apos;msg&apos;=&gt;&apos;SUCCESS&apos;, &apos;data&apos; =&gt; [&apos;uid&apos;=&gt;1, &apos;name&apos; =&gt; &apos;test&apos;]]; // &#x4F60;&#x7684;&#x4E1A;&#x52A1;&#x6570;&#x636E;
-            $result = json_encode($data);
-
-            $response = $this-&gt;getResponse();
-            $headers = [&apos;Yaf-Version&apos; =&gt; &quot;3.0.4&quot;, &quot;X-HOST&quot;=&gt;&quot;10.10.10.10&quot;];
-            $response-&gt;setAllHeaders($headers);
-            $response-&gt;setBody($result);
-        }
-    }
-</code></pre><h4 id="getheader">getHeader</h4>
-<p>&#x83B7;&#x53D6;&#x8BF7;&#x6C42;&#x7684;header&#x5934;&#x4FE1;&#x606F;</p>
-<pre><code>public void Yaf\Response_Abstract::getHeader ( void)
-</code></pre><p>&#x4F8B;&#x5982;</p>
-<pre><code>    &lt;?php
-
-
-    class IndexController extends Yaf\Controller_Abstract
-    {
-        public function testAction()
-        {    
-            Yaf\Dispatcher::getInstance()-&gt;autoRender(false);
-
-            $data = [&apos;code&apos; =&gt; 0, &apos;msg&apos;=&gt;&apos;SUCCESS&apos;, &apos;data&apos; =&gt; [&apos;uid&apos;=&gt;1, &apos;name&apos; =&gt; &apos;test&apos;]]; // &#x4F60;&#x7684;&#x4E1A;&#x52A1;&#x6570;&#x636E;
-            $result = json_encode($data);
-
-            $response = $this-&gt;getResponse();
-            $headers = [&apos;Yaf-Version&apos; =&gt; &quot;3.0.4&quot;, &quot;X-HOST&quot;=&gt;&quot;10.10.10.10&quot;];
-
-            $response-&gt;setAllHeaders($headers);
-
-            var_dump($response-&gt;getHeader($));
-        }
-    }
-</code></pre><h4 id="clearheaders">clearHeaders</h4>
-<h4 id="getbody">getBody</h4>
-<p>&#x83B7;&#x53D6;body&#x5185;&#x5BB9;</p>
-<pre><code>    &lt;?php 
-
-        $response = $this-&gt;getResponse();
-
-        $response-&gt;setBody(&quot;Hello&quot;)-&gt;setBody(&quot; World&quot;, &quot;footer&quot;);
-
-        var_dump($response-&gt;getBody()); //Hello
-        var_dump($response-&gt;getBody(Response_Http::DEFAULT_BODY)); //Hello &#x548C;&#x4E0A;&#x9762;&#x7684;&#x4E00;&#x6837;
-        var_dump($response-&gt;getBody(&quot;footer&quot;)); // World
-        var_dump($response-&gt;getBody(NULL)); //get all
-    ?&gt;
-</code></pre><h4 id="clearbody">clearBody</h4>
-<h4 id="appendbody">appendBody</h4>
-<h4 id="prependbody">prependBody</h4>
-<h2 id="&#x53C2;&#x8003;">&#x53C2;&#x8003;</h2>
+- &#x5B9A;&#x4E49;action&#x7C7B;&#x6587;&#x4EF6;
+    - &#x4F4D;&#x7F6E;: &#x4E00;&#x822C;&#x5728;application/actions&#x4E0B;&#x9762;&#xFF0C;&#x5982;detail.php(application/actions/detail.php)
+    - &#x547D;&#x540D;: &#x5FC5;&#x987B;&#x4EE5;Action&#x4E3A;&#x540E;&#x7F00;&#xFF0C;&#x5982;DetailAction
+    - &#x7EE7;&#x627F;: &#x7EE7;&#x627F;&#x81EA;Yaf\Action_abstract
+    - &#x5FC5;&#x987B;&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x6CD5;: execute,&#x56E0;&#x4E3A;&#x5176;&#x7236;&#x7C7B;Yaf\Action_abstract&#x662F;&#x4E00;&#x4E2A;&#x62BD;&#x8C61;&#x7C7B;&#xFF0C;&#x5FC5;&#x987B;&#x5B9E;&#x73B0;&#x62BD;&#x8C61;&#x65B9;&#x6CD5;execute
+    - &#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x7236;&#x7C7B;&#x7684;&#x65B9;&#x6CD5;: &#x4E0D;&#x4EC5;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;Yaf\Action_abstract&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;Yaf\Controller_Abstract&#x7684;&#x65B9;&#x6CD5;(&#x56E0;&#x4E3A;Yaf\Action_abstract&#x7EE7;&#x627F;&#x81EA;Yaf\Controller_Abstract)
+</code></pre><h2 id="&#x63A7;&#x5236;&#x5668;&#x7C7B;&#x65B9;&#x6CD5;">&#x63A7;&#x5236;&#x5668;&#x7C7B;&#x65B9;&#x6CD5;</h2>
+<h3 id="&#x521D;&#x59CB;&#x5316;&#x64CD;&#x4F5C;">&#x521D;&#x59CB;&#x5316;&#x64CD;&#x4F5C;</h3>
+<pre><code> - init: &#x521D;&#x59CB;&#x5316;&#x64CD;&#x4F5C;(&#x5982;&#x521D;&#x59CB;&#x5316;&#x5B9E;&#x4F8B;&#x53D8;&#x91CF;&#xFF0C;&#x66FF;&#x4EE3;__construct&#x7684;&#x529F;&#x80FD;)
+ - initView: &#x521D;&#x59CB;&#x5316;&#x8BD5;&#x56FE;
+</code></pre><h3 id="&#x8BD5;&#x56FE;&#x76F8;&#x5173;">&#x8BD5;&#x56FE;&#x76F8;&#x5173;</h3>
+<h3 id="&#x8BF7;&#x6C42;&#x4E0E;&#x54CD;&#x5E94;">&#x8BF7;&#x6C42;&#x4E0E;&#x54CD;&#x5E94;</h3>
+<pre><code> - getRequest: &#x83B7;&#x53D6;&#x5F53;&#x524D;&#x8BF7;&#x6C42;&#x5BF9;&#x8C61;&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x5C31;&#x53EF;&#x4EE5;&#x8C03;&#x7528;request&#x5BF9;&#x8C61;&#x6240;&#x6709;&#x7684;&#x65B9;&#x6CD5;
+ - getResponse: &#x83B7;&#x53D6;&#x5F53;&#x524D;&#x54CD;&#x5E94;&#x5BF9;&#x8C61;&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x5C31;&#x53EF;&#x4EE5;&#x8C03;&#x7528;response&#x5BF9;&#x8C61;&#x6240;&#x6709;&#x7684;&#x65B9;&#x6CD5;
+</code></pre><h3 id="&#x9875;&#x9762;&#x8DF3;&#x8F6C;">&#x9875;&#x9762;&#x8DF3;&#x8F6C;</h3>
+<pre><code> - fowrard: 
+     - &#x8DF3;&#x8F6C;&#x5230;&#x67D0;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#x7684;&#x67D0;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x4E0D;&#x4F1A;&#x7ACB;&#x5373;&#x8DF3;&#x8F6C;&#xFF0C;&#x4F1A;&#x7EE7;&#x7EED;&#x6267;&#x884C;&#x4ED6;&#x540E;&#x9762;&#x7684;&#x5185;&#x5BB9;
+     - &#x652F;&#x6301;&#x8DF3;&#x8F6C;&#x5230;&#x5176;&#x4ED6;&#x6A21;&#x5757;&#x7684;&#x67D0;&#x4E2A;&#x63A7;&#x5236;&#x5668;&#x7684;&#x67D0;&#x4E2A;&#x65B9;&#x6CD5;
+ - redirect: &#x8DF3;&#x8F6C;&#x5230;&#x4E00;&#x4E2A;&#x6307;&#x5B9A;&#x7684;url
+</code></pre><p> &#x4F8B;&#x5982;&#xFF1A;&#x767B;&#x5F55;&#x6743;&#x9650;&#x63A7;&#x5236;</p>
 <ul>
-<li><a href="http://blog.csdn.net/senlin1202/article/details/50800293" target="_blank">http://blog.csdn.net/senlin1202/article/details/50800293</a></li>
+<li><p>forward &#x8DF3;&#x8F6C;&#x5230;&#x5F53;&#x524D;&#x63A7;&#x5236;&#x5668;&#x7684;</p>
+<pre><code>&lt;?php
+ class IndexController extends \Yaf\Controller_Abstract
+ {
+     public function indexAction()
+     {   
+          $logined = $_SESSION[&quot;userId&quot;];
+          if (!$logined) {
+              $this-&gt;forward(&quot;login&quot;, array(&quot;from&quot; =&gt; &quot;Index&quot;)); // &#x8DF3;&#x8F6C;&#x5230;&#x5F53;&#x524D;&#x6A21;&#x5757;&#x7684;login&#x64CD;&#x4F5C;
+
+              return FALSE;  //&#x7ACB;&#x5373;&#x8FD4;&#x56DE;&#x5C31;&#x4E0D;&#x4F1A;&#x6267;&#x884C;&#x540E;&#x9762;&#x7684;&#x5185;&#x5BB9;&#x4E86;
+          }
+
+          //&#x663E;&#x793A;&#x5185;&#x5BB9;
+     }
+
+     public function loginAction() {
+          echo &quot;login, redirected from &quot;, $this-&gt;_request-&gt;getParam(&quot;from&quot;) , &quot; action&quot;;
+     }
+ }
+?&gt;
+</code></pre></li>
+<li><p>forward &#x8DF3;&#x8F6C;&#x5230;&#x5176;&#x4ED6;&#x6A21;&#x5757;</p>
+<pre><code>//&#x8DF3;&#x8F6C;&#x5230;admin&#x6A21;&#x5757;&#x7684;login&#x63A7;&#x5236;&#x5668;&#x7684;index&#x65B9;&#x6CD5;
+$this-&gt;forward(&apos;admin&apos;, &apos;login&apos;, &apos;index&apos;,array(&apos;from&apos;=&gt;&apos;index&apos;));
+</code></pre></li>
+<li><p>redirect &#x5230;&#x67D0;&#x4E2A;url</p>
+<pre><code>public function indexAction()
+{
+ $logined = $_SESSION[&apos;user_id&apos;];
+ if (!$logined) {
+     $this-&gt;redirect(&apos;http://www.domain.com/admin/login/index&apos;)); // &#x8DF3;&#x8F6C;&#x5230;http://www.domain.com/admin/login/index&#x8FD9;&#x4E2A;&#x5730;&#x5740;
+
+     return FALSE;  //&#x7ACB;&#x5373;&#x8FD4;&#x56DE;&#x5C31;&#x4E0D;&#x4F1A;&#x6267;&#x884C;&#x540E;&#x9762;&#x7684;&#x5185;&#x5BB9;&#x4E86;
+ }
+
+}
+</code></pre></li>
+</ul>
+<h2 id="&#x9519;&#x8BEF;&#x5904;&#x7406;&#x63A7;&#x5236;&#x5668;">&#x9519;&#x8BEF;&#x5904;&#x7406;&#x63A7;&#x5236;&#x5668;</h2>
+<p>Yaf&#x4E2D;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;ErrorController(application/controllers/Error.php)&#x63A7;&#x5236;&#x5668;&#x6765;&#x6355;&#x83B7;&#x5F02;&#x5E38;&#x4E0E;&#x9519;&#x8BEF;&#x3002;</p>
+<p>&#x6355;&#x83B7;&#x5F02;&#x5E38;&#x4E0E;&#x9519;&#x8BEF;&#x9700;&#x8981;&#x5F00;&#x542F;&#x76F8;&#x5E94;&#x7684;&#x914D;&#x7F6E;&#xFF0C;&#x6709;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;:</p>
+<ul>
+<li><p>&#x901A;&#x8FC7;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x5F00;&#x542F;</p>
+<pre><code>// conf/application.ini
+application.dispatcher.catchException = true
+</code></pre></li>
+<li><p>&#x5728;&#x6846;&#x67B6;&#x542F;&#x52A8;&#x6587;&#x4EF6;&#x4E2D;&#x5F00;&#x542F;</p>
+<pre><code>// application/Bootstrap.php
+public function _initException(Yaf\Dispatcher $dispatcher)
+{
+  $dispatcher::getInstance()-&gt;catchException(true);
+}
+</code></pre></li>
+<li><p>&#x793A;&#x4F8B;</p>
+<pre><code> // application/controllers/Error.php
+ &lt;?php
+ class ErrorController extends Yaf\Controller_Abstract
+ {
+     /**
+      * @param Exception $exception
+      */
+      public function errorAction(Exception $exception)
+      {
+         $constArr = array(
+             YAF\ERR\NOTFOUND\MODULE,
+             YAF\ERR\NOTFOUND\CONTROLLER,
+             YAF\ERR\DISPATCH_FAILED,
+             YAF\ERR\NOTFOUND\ACTION,
+             YAF\ERR\NOTFOUND\VIEW
+         );
+         $err = $exception-&gt;getCode();
+         if (in_array($err, $constArr)) {
+             $code = 404;
+             $message = &apos;&#x8BF7;&#x6C42;&#x7684;&#x9875;&#x9762;&#x4E0D;&#x5B58;&#x5728;&apos;;
+         } else {
+             $code = 500;
+             $message = &apos;&#x7CFB;&#x7EDF;&#x51FA;&#x9519;&apos;;
+         }
+         if (ENV == &apos;DEV&apos;) {
+             $message = $exception-&gt;getMessage();
+         }
+         //&#x8BB0;&#x5F55;&#x65E5;&#x5FD7;
+         //ajax&#x8F93;&#x51FA;&#x6216;&#x663E;&#x793A;&#x9519;&#x8BEF;&#x6A21;&#x677F;
+         $this-&gt;getView()-&gt;assign(&apos;message&apos;, $message);
+     }
+ }
+</code></pre><blockquote>
+<p>&#x5173;&#x4E8E;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x540E;&#x9762;&#x4F1A;&#x6709;&#x8BE6;&#x7EC6;&#x7684;&#x4ECB;&#x7ECD;</p>
+</blockquote>
+</li>
 </ul>
 
                                 
@@ -831,12 +787,12 @@ clearHeaders
 
             
                 
-                <a href="../request/" class="navigation navigation-prev " aria-label="Previous page: 13. 请求-Request">
+                <a href="../config/" class="navigation navigation-prev " aria-label="Previous page: 3. 配置">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../model/" class="navigation navigation-next " aria-label="Next page: 15. 模型-Model">
+                <a href="../run-process/" class="navigation navigation-next " aria-label="Next page: 5. 运行流程">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -847,7 +803,7 @@ clearHeaders
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"14. 响应-Response","level":"1.14","depth":1,"next":{"title":"15. 模型-Model","level":"1.15","depth":1,"path":"model/README.md","ref":"model/README.md","articles":[]},"previous":{"title":"13. 请求-Request","level":"1.13","depth":1,"path":"request/README.md","ref":"request/README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"response/README.md","mtime":"2018-03-09T06:38:40.821Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-10T12:44:36.596Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4. 快速开始一个Yaf项目","level":"1.4","depth":1,"next":{"title":"5. 运行流程","level":"1.5","depth":1,"path":"run-process/README.md","ref":"run-process/README.md","articles":[]},"previous":{"title":"3. 配置","level":"1.3","depth":1,"path":"config/README.md","ref":"config/README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"controller/README.md","mtime":"2018-03-10T12:52:14.950Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-10T12:53:24.064Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

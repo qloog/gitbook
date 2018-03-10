@@ -62,6 +62,72 @@ class UserController extends \Yaf\Controller_Abstract
         - 必须实现的方法: execute,因为其父类Yaf\Action_abstract是一个抽象类，必须实现抽象方法execute
         - 可以使用父类的方法: 不仅可以使用Yaf\Action_abstract的方法，还可以使用Yaf\Controller_Abstract的方法(因为Yaf\Action_abstract继承自Yaf\Controller_Abstract)
 
-## 控制器类
+## 控制器类方法
 
+### 初始化操作
+
+     - init: 初始化操作(如初始化实例变量，替代__construct的功能)
+     - initView: 初始化试图
+     
+### 试图相关
+     
+### 请求与响应
+
+     - getRequest: 获取当前请求对象，那么它就可以调用request对象所有的方法
+     - getResponse: 获取当前响应对象，那么它就可以调用response对象所有的方法
+     
+### 页面跳转
+
+     - fowrard: 
+         - 跳转到某个控制器的某个方法，不会立即跳转，会继续执行他后面的内容
+         - 支持跳转到其他模块的某个控制器的某个方法
+     - redirect: 跳转到一个指定的url
+
+          
+ 例如：登录权限控制
+ 
+ - forward 跳转到当前控制器的
+ ```
+ <?php
+    class IndexController extends \Yaf\Controller_Abstract
+    {
+        public function indexAction()
+        {   
+             $logined = $_SESSION["userId"];
+             if (!$logined) {
+                 $this->forward("login", array("from" => "Index")); // 跳转到当前模块的login操作
+                 
+                 return FALSE;  //立即返回就不会执行后面的内容了
+             }
+     
+             //显示内容
+        }
+     
+        public function loginAction() {
+             echo "login, redirected from ", $this->_request->getParam("from") , " action";
+        }
+    }
+ ?>
+ ```
+ 
+ - forward 跳转到其他模块
+ 
+ ```
+ //跳转到admin模块的login控制器的index方法
+ $this->forward('admin', 'login', 'index',array('from'=>'index'));  
+ ```
+
+ - redirect 到某个url
+ ```
+ public function indexAction()
+ {
+    $logined = $_SESSION['user_id'];
+    if (!$logined) {
+        $this->redirect('http://www.domain.com/admin/login/index')); // 跳转到http://www.domain.com/admin/login/index这个地址
+        
+        return FALSE;  //立即返回就不会执行后面的内容了
+    }
+     
+ }
+ ```
 ## 错误控制器

@@ -1,5 +1,15 @@
 # 控制器
 
+## 简介
+
+`Yaf_Controller_Abstract` 是Yaf的MVC体系的核心部分。 MVC是指Model-View-Controller, 是一个用于分离应用逻辑和表现逻辑的设计模式。
+
+每个用户自定义controller都应当继承`Yaf_Controller_Abstract`。
+
+你会发现在你自己的controller中无法定义`__construct`方法。因此，Yaf_Controller_Abstract 提供了一个魔术方法Yaf_Controller_Abstract::init()。
+
+如果在你自己的controller里面已经定义了一个init()方法，当你的controller被实例化的时候，它将被调用。
+
 ## 控制器的定义
 
 ### 控制器文件
@@ -16,6 +26,16 @@
 
     - 方法定义: 方法名+Action (对外可以访问)
     - 初始化方法: 代替自带的__construct, 在yaf中init都会被默认执行
+    - 获取参数的方法:
+        - 通过方法参数获取， 如`public indexAction($name, $id)`
+        - 通过request对象获取
+        
+        ```
+        public indexAction($name, $id) {
+           assert($name == $this->getRequest()->getParam("name"));
+           assert($id   == $this->_request->getParam("id"));
+        }
+        ```
     
 ### 命名空间
 
@@ -47,6 +67,7 @@
         }
     }
     ?>
+    
     ```
     
 
@@ -68,6 +89,7 @@
         ```
         
     - 定义action类文件
+    
         - 位置: 一般在application/actions下面，如detail.php(application/actions/detail.php)
         - 命名: 必须以Action为后缀，如DetailAction
         - 继承: 继承自Yaf\Action_abstract
@@ -76,12 +98,53 @@
 
 ## 控制器类方法
 
+主要说明下常用类方法的使用
+
+```
+abstract Yaf\Controller_Abstract 
+{
+    /* 属性 */
+    public $actions ;
+    protected $_module ;
+    protected $_name ;
+    protected $_request ;
+    protected $_response ;
+    protected $_invoke_args ;
+    protected $_view ;
+    
+    /* 方法 */
+    final private void __clone ( void )
+    final private __construct ( void )
+    protected bool display ( string $tpl [, array $parameters ] )
+    public void forward ( string $module [, string $controller [, string $action [, array $paramters ]]] )
+    public void getInvokeArg ( string $name )
+    public void getInvokeArgs ( void )
+    public string getModuleName ( void )
+    public Yaf_Request_Abstract getRequest ( void )
+    public Yaf_Response_Abstract getResponse ( void )
+    public Yaf_View_Interface getView ( void )
+    public void getViewpath ( void )
+    public void init ( void )
+    public void initView ([ array $options ] )
+    public void redirect ( string $url )
+    protected string render ( string $tpl [, array $parameters ] )
+    public void setViewpath ( string $view_directory )
+    }
+```
+
 ### 初始化操作
 
      - init: 初始化操作(如初始化实例变量，替代__construct的功能)
      - initView: 初始化试图
      
-### 试图相关
+### 试图操作
+
+    - display: 显示数据
+    - getView: 获取当前的试图引擎
+    - getViewPath: 获取试图模板路径
+    - initView: 初始化试图
+    - render: 渲染试图模板
+    - setViewPath: 指定试图模板路径
      
 ### 请求与响应
 

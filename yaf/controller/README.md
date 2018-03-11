@@ -452,10 +452,10 @@ abstract Yaf\Controller_Abstract
 ### 初始化操作
 
      - init: 初始化操作(如初始化实例变量，替代__construct的功能)
-     - initView: 初始化试图
      
 ### 试图操作
 
+    - initView: 初始化试图
     - display: 显示数据
     - getView: 获取当前的试图引擎
     - getViewPath: 获取试图模板路径
@@ -479,6 +479,7 @@ abstract Yaf\Controller_Abstract
  例如：登录权限控制
  
  - forward 跳转到当前控制器的
+ 
  ```
  <?php
     class IndexController extends \Yaf\Controller_Abstract

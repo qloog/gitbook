@@ -310,22 +310,23 @@ Action可能需要参数，当一个请求来到的时候，在路由中如果�
 ## 控制器的定义
 
 ### 控制器文件
-
-    - 文件位置:  位于application/controllers 或 application/modules/controllers 目录下
-    - 文件命名:  首字母大写，不含Controller, 例如：User.php
+ 
+ - 文件位置:  位于application/controllers 或 application/modules/controllers 目录下
+ - 文件命名:  首字母大写，不含Controller, 例如：User.php
 
 ### 控制器类
 
-    - 类定义: 控制器明文件名+Controller, eg.: UserController
-    - 类继承: 一般需要继承基类Yaf\Controller_Abstract或Yaf\Controller_Abstract的子类
+ - 类定义: 控制器明文件名+Controller, eg.: UserController
+ - 类继承: 一般需要继承基类Yaf\Controller_Abstract或Yaf\Controller_Abstract的子类
 
 ### 控制器方法
 
-    - 方法定义: 方法名+Action (对外可以访问)
-    - 初始化方法: 代替自带的__construct, 在yaf中init都会被默认执行
-    - 获取参数的方法:
-        - 通过方法参数获取， 如`public indexAction($name, $id)`
-        - 通过request对象获取
+ - 方法定义: 方法名+Action (对外可以访问)
+ - 初始化方法: 代替自带的__construct, 在yaf中init都会被默认执行
+ - 获取参数的方法:
+ 
+  - 通过方法参数获取， 如`public indexAction($name, $id)`
+  - 通过request对象获取
         
         ```
         public indexAction($name, $id) {
@@ -341,37 +342,37 @@ Action可能需要参数，当一个请求来到的时候，在路由中如果�
     
 ### 示例
 
-    ```
-    // application/controllers/User.php
-    // or
-    // application/modules/Web/controllers/User.php
-    
-    <?php
-    
-    // 这里无需使用namespace
-    
-    class UserController extends \Yaf\Controller_Abstract
+```
+// application/controllers/User.php
+// or
+// application/modules/Web/controllers/User.php
+
+<?php
+
+// 这里无需使用namespace
+
+class UserController extends \Yaf\Controller_Abstract
+{
+    // 该方法默认会被执行
+    public function init()
     {
-        // 该方法默认会被执行
-        public function init()
-        {
-            
-        }
         
-        public function messageAction()
-        {
-        
-        }
     }
-    ?>
     
-    ```
+    public function messageAction()
+    {
     
+    }
+}
+?>
+
+```
+
 
 ## 独立文件Action的定义
 
-    - 作用: 为了分解大的控制器， 让代码更清晰
-    - 与控制器绑定，即将操作绑定到某个类上，如
+ - 作用: 为了分解大的控制器， 让代码更清晰
+ - 与控制器绑定，即将操作绑定到某个类上，如
     
         ```
         <?php
@@ -385,18 +386,18 @@ Action可能需要参数，当一个请求来到的时候，在路由中如果�
          }
         ```
         
-    - 定义action类文件
+ - 定义action类文件
     
-        - 位置: 一般在application/actions下面，如detail.php(application/actions/detail.php)
-        - 命名: 必须以Action为后缀，如DetailAction
-        - 继承: 继承自Yaf\Action_abstract
-        - 必须实现的方法: execute,因为其父类Yaf\Action_abstract是一个抽象类，必须实现抽象方法execute
-        - 可以使用父类的方法: 不仅可以使用Yaf\Action_abstract的方法，还可以使用Yaf\Controller_Abstract的方法(因为Yaf\Action_abstract继承自Yaf\Controller_Abstract)
+  - 位置: 一般在application/actions下面，如detail.php(application/actions/detail.php)
+  - 命名: 必须以Action为后缀，如DetailAction
+  - 继承: 继承自Yaf\Action_abstract
+  - 必须实现的方法: execute,因为其父类Yaf\Action_abstract是一个抽象类，必须实现抽象方法execute
+  - 可以使用父类的方法: 不仅可以使用Yaf\Action_abstract的方法，还可以使用Yaf\Controller_Abstract的方法(因为Yaf\Action_abstract继承自Yaf\Controller_Abstract)
         
-    - execute方法中获取参数
+  - execute方法中获取参数
     
-        - 通过方法参数获取， 如`public execute($name, $id)`
-        - 通过request对象获取
+    - 通过方法参数获取， 如`public execute($name, $id)`
+    - 通过request对象获取
         
         ```
         /**
@@ -451,29 +452,36 @@ abstract Yaf\Controller_Abstract
 
 ### 初始化操作
 
-     - init: 初始化操作(如初始化实例变量，替代__construct的功能)
+ - init: 初始化操作(如初始化实例变量，替代__construct的功能)
      
 ### 试图操作
 
-    - initView: 初始化试图
-    - display: 显示数据
-    - getView: 获取当前的试图引擎
-    - getViewPath: 获取试图模板路径
-    - initView: 初始化试图
-    - render: 渲染试图模板
-    - setViewPath: 指定试图模板路径
+ - initView: 初始化试图
+ - display: 显示数据
+ - getView: 获取当前的试图引擎
+ - getViewPath: 获取试图模板路径
+ - initView: 初始化试图
+ - render: 渲染试图模板
+ - setViewPath: 指定试图模板路径
      
 ### 请求与响应
 
-     - getRequest: 获取当前请求对象，那么它就可以调用request对象所有的方法
-     - getResponse: 获取当前响应对象，那么它就可以调用response对象所有的方法
+ - getRequest: 获取当前请求对象，那么它就可以调用request对象所有的方法
+ - getResponse: 获取当前响应对象，那么它就可以调用response对象所有的方法
      
 ### 页面跳转
 
-     - fowrard: 
-         - 跳转到某个控制器的某个方法，不会立即跳转，会继续执行他后面的内容
-         - 支持跳转到其他模块的某个控制器的某个方法
-     - redirect: 跳转到一个指定的url
+ - fowrard: 
+     
+ 将当前的请求转交给另外的Action（对用户来说是透明的，相当于Web服务器的代理）.
+ 调用Yaf\Controller_Abstract::forward()以后，不会直接立即跳转到目的Action执行，
+ 而是会在当前的Action执行完成后，下一轮的DispatchLoop中，交给目的Action.
+ 所以, 如果你希望立即跳转到目的Action, 那么请使用return结束当前的执行流程.
+
+  - 跳转到某个控制器的某个方法，不会立即跳转，会继续执行他后面的内容
+  - 支持跳转到其他模块的某个控制器的某个方法
+         
+ - redirect: 跳转到一个指定的url
 
           
  例如：登录权限控制
@@ -510,7 +518,10 @@ abstract Yaf\Controller_Abstract
  $this->forward('admin', 'login', 'index',array('from'=>'index'));  
  ```
 
- - redirect 到某个url
+ - redirect
+ 
+ 将当前请求重定向到指定的URL（内部实现是通过发送Location报头实现，如：header("Location:http//www.phpcasts.org/"）
+ 
  ```
  public function indexAction()
  {

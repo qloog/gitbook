@@ -28,6 +28,8 @@
     // application/controller/User.php
     <?php
     
+    // 这里无需使用namespace
+    
     class UserController extends \Yaf\Controller_Abstract
     {
         // 该方法默认会被执行

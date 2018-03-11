@@ -25,7 +25,10 @@
 ### 示例
 
     ```
-    // application/controller/User.php
+    // application/controllers/User.php
+    // or
+    // application/modules/Web/controllers/User.php
+    
     <?php
     
     // 这里无需使用namespace

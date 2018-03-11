@@ -7,7 +7,7 @@ _ ** Yaf框架入门指导手册 ** _
   * [2.1 Linux下的安装](install/linux.md)
   * [2.2 macOS下的安装](install/macos.md)
 * [3. 配置](config/README.md)
-* [4. 快速开始一个Yaf项目](controller/README.md)
+* [4. 快速开始一个Yaf项目](quick-start/README.md)
 * [5. 运行流程](run-process/README.md)
 * [6. 目录结构](architecture/README.md)
 * [7. Application](config/README.md)

@@ -24,7 +24,7 @@ Yaf框架使用原生PHP作为模板引擎, 内置的试图引擎为`Yaf_View_Si
 ```
 public function _initView(Yaf\Dispatcher $dispatcher)
 {
-    $dispatcher->initView(APP_PATH . '/application/templates');
+    $dispatcher->initView(APP_PATH . '/templates');
 }
 ```
 
@@ -35,11 +35,18 @@ public function _initView(Yaf\Dispatcher $dispatcher)
 ```
 public function init()
 {
-    $this->initView(APP_PATH . '/application/templates');
+    $this->initView(APP_PATH . '/templates');
 }
 ```
 
 两者比较的话，个人更倾向于第一种。
+
+APP_PATH的定义在
+```
+// public/index.php
+define('APP_ROOT', dirname(__DIR__));
+define('APP_PATH', APP_ROOT . '/application');
+```
 
 ### 模板文件后缀
 
@@ -87,7 +94,7 @@ public function init()
     {
         public function detailAction()
         {
-            $this->getView()->setScriptPath(APP_PATH . '/application/templates/');
+            $this->getView()->setScriptPath(APP_PATH . '/templates/');
         }
     }
 ```

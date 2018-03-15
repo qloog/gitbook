@@ -6,12 +6,42 @@ Yaf实现了一套错误和异常捕获机制, 主要是对常见的错误处理
 
 Yaf自身出错时候, 根据配置可以分别采用抛异常或者触发错误的方式来通知错误. 在appliation.dispatcher.throwException(配置文件, 或者通过Yaf_Dispatcher::throwException(true))打开的情况下, Yaf会抛异常, 否则则会触发错误.
 
+### 异常分类
+
+| 错误类型 | 错误说明 | 
+| :- | :- | 
+| Yaf\Exception_TypeError | 类型错误 |
+| Yaf\Exception_StartupError | 启动失败 |
+| Yaf\Exception_DispatchFailed | 路由分发失败 |
+| Yaf\Exception_RouterFailed | 路由失败|
+| Yaf\Exception_LoadFailed | 文件加载失败(文件不存在)|
+| Yaf\Exception_LoadFailed_Module | 加载模块失败(模块不存在)|
+| Yaf\Exception_LoadFailed_Controller | 加载控制器失败(控制器类不存在)|
+| Yaf\Exception_LoadFailed_Action | 加载操作失败(方法不存在)|
+| Yaf\Exception_LoadFailed_View | 加载模板文件失败(一般是路径不对或后缀问题)|
+
+
+### 错误常量
+
+| 常量 | 常量值 | 备注 | 
+| :- | :- | :- | 
+|YAF\ERR\STARTUP_FAILED	|512|	启动失败|
+|YAF\ERR\ROUTE_FAILED	|513|	路由失败|
+|YAF\ERR\DISPATCH_FAILED	|514|	路由分发失败|
+|YAF\ERR\AUTOLOAD_FAILED	|520|	自动加载失败|
+|YAF\ERR\NOTFOUND\MODULE	|515|	加载模块失败|
+|YAF\ERR\NOTFOUND\CONTROLLER	|516|	加载控制器失败|
+|YAF\ERR\NOTFOUND\ACTION	|517|	加载方法失败|
+|YAF\ERR\NOTFOUND\VIEW	|518|	加载模板失败|
+|YAF\ERR\CALL_FAILED	|519|	调用方法失败|
+|YAF\ERR\TYPE_ERROR	|521|	类型错误|
+
 ### 异常的捕获与处理
 
 若果想在Yaf中抛出异常，可以通过配置文件来开启
 
 ```
-// conf/application.ini
+// conf/application.ini, 该值不配置默认也是开启的
 application.dispatcher.throwException = true
 ```
 
@@ -19,14 +49,14 @@ application.dispatcher.throwException = true
 
 有两种方式来开启捕获异常
 
-1. 通过配置文件
+ 1、 通过配置文件
 
 ```
 // conf/application.ini
 application.dispatcher.catchException = true
 ```
 
-2. 在启动文件中开启
+ 2、 在启动文件中开启
 
 ```
 // application/Bootstrap.php
@@ -43,7 +73,7 @@ public function _initRoute()
 
 也有两种方式来处理
 
-1. 在`ErrorController`控制器中处理
+ 1、 在`ErrorController`控制器中处理
 
 ```
 <?php
@@ -80,7 +110,8 @@ class ErrorController extends Yaf\Controller_Abstract
 }
 ?>
 ```
-2. 使用Dispatcher的`setErrorHandler`方法捕获
+
+ 2、 使用Dispatcher的`setErrorHandler`方法捕获
 
 使用前需要关闭抛出异常，即`throwException(false)`
 
@@ -113,70 +144,3 @@ $application = new Yaf\Application(APP_ROOT . "/conf/application.ini", \Yaf\ENVI
 $application->getDispatcher()->throwException(FALSE)->setErrorHandler('appErrorHandler', E_ALL ^E_NOTICE)
 ->getApplication()->bootstrap()->run();
  ```
-
- 3. 在基类控制器中处理
-
- ```
- class Api extends Base
-{
-    use OutputTrait;
-
-    /**
-     * 初始化
-     */
-    public function init()
-    {
-        // 在controller或service里throw new Exception之后,这里会进行捕获
-        // 比如参数检查,用户登录检查抛异常之后,最后还会以类似调用$this->error()的方式返回json。
-        set_exception_handler([$this, 'handleException']);
-
-        parent::init();
-    }
-
-    /**
-     * 异常处理
-     *
-     * @param \Exception $e 异常
-     * @return bool
-     */
-    public function handleException($e)
-    {
-        if ($e instanceof Action) {
-            return $this->error(Code::NOT_FOUND);
-        }
-
-        return $this->error($e->getCode(), $e->getMessage());
-    }
-}
- ```
-
-
-### 异常分类
-
-| 错误类型 | 错误说明 | 
-| :- | :- | 
-| Yaf\Exception_TypeError | 类型错误 |
-| Yaf\Exception_StartupError | 启动失败 |
-| Yaf\Exception_DispatchFailed | 路由分发失败 |
-| Yaf\Exception_RouterFailed | 路由失败|
-| Yaf\Exception_LoadFailed | 文件加载失败(文件不存在)|
-| Yaf\Exception_LoadFailed_Module | 加载模块失败(模块不存在)|
-| Yaf\Exception_LoadFailed_Controller | 加载控制器失败(控制器类不存在)|
-| Yaf\Exception_LoadFailed_Action | 加载操作失败(方法不存在)|
-| Yaf\Exception_LoadFailed_View | 加载模板文件失败(一般是路径不对或后缀问题)|
-
-
-### 错误常量
-
-| 常量 | 常量值 | 备注 | 
-| :- | :- | :- | 
-|YAF\ERR\STARTUP_FAILED	|512|	启动失败|
-|YAF\ERR\ROUTE_FAILED	|513|	路由失败|
-|YAF\ERR\DISPATCH_FAILED	|514|	路由分发失败|
-|YAF\ERR\AUTOLOAD_FAILED	|520|	自动加载失败|
-|YAF\ERR\NOTFOUND\MODULE	|515|	加载模块失败|
-|YAF\ERR\NOTFOUND\CONTROLLER	|516|	加载控制器失败|
-|YAF\ERR\NOTFOUND\ACTION	|517|	加载方法失败|
-|YAF\ERR\NOTFOUND\VIEW	|518|	加载模板失败|
-|YAF\ERR\CALL_FAILED	|519|	调用方法失败|
-|YAF\ERR\TYPE_ERROR	|521|	类型错误|

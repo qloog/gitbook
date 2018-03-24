@@ -26,15 +26,46 @@
 
 ### 一致性和灵活性
 
+在这里我们应该使用哪一个组件？ 框架其实已经对这个问题提供了一个深思熟虑的答案。
+并且框架可以确保选择的那些组件在一起可以很好的工作。另外框架也提供了一些规范，这些规范可以使我们去减少新人对项目代码量的理解。
+如果你理解在一个Laravel项目中路由是如何工作的，那你也就理解了在所有Laravel项目中路由是如何工作的。
+
+
 ## Web和PHP框架的简短历史
+
+可能去回答"为什么是Laravel"这个问题一个重要的部分就是理解Laravel的历史，理解之前发生了什么。
+实际在Laravel流行之前，在PHP语言里有非常多的框架，其他web开发语言也是如此。
 
 ### Ruby on Rails
 
+David Heinemeier Hansson 在2004年发布了第一个Ruby on Rails版本，而在那时也很难找到一个web应用开发框架，这在某种程度上没有受到Raisl的影响。
+
+Rails推广MVC， RESTful JSON API,约定优于配置，ActiveRecord,以及其他很多的工具和约定，而这些工具和约定对Web开发人员接近他们的应用程序的方式产生了深远的影响，特别是在快速应用开发方面。
+
 ### 框架的大量涌入
+
+大多数开发人员很清楚，Rails和类似的Web应用程序框架是未来的潮流，PHP框架，包括那些被公认为模板Rails的框架，开始迅速出现。
+CakePHP是2005年第一个出现的，不就之后，Symfony、CodeIgniter、Zend Framework和Kohana(CodeIgniter的一个分支)接着发布了。Yii 在2008年出现的，Slim在2010出现。在2011 FuelPHP和Laravel也出现了，两者都不是很完美，但是可以作为替代方案。
+
+其中一些框架更像是Rails, 侧重于数据库对象ORM, MVC结构和其他快速开发的工具。而另一些框架，比如Symfony和Zend ,则更多的关于企业设计方案和电子商务。
 
 ### CodeIgniter 框架的优点和缺点
 
+CakePHP和CodeIgniter是两个比较早的PHP框架，他们的灵感或多或少来自于Rails。CodeIgniter的名气快速上升，到2010年可以说是最受欢迎的PHP框架。
+
+CodeIgniter简单易用,并且拥有令人惊叹的文档和一个强大的社区。但其对现代技术和先进模式使用比较缓慢，随着框架世界的发展和PHP工具的进步，CodeIgniter开始在先进技术和开箱即用功能方面落后于后者。与许多其他框架不同，CodeIgniter是由一家公司管理，他们很难赶上PHP5.3的新功能，比如命名空间以及迁移到Github和后来的Composer。在2010年，Laravel的创始人Taylor Otwell对使用CodeIgniter
+感到不满足，所以开始编写自己的框架。
+
 ### Laravel 1,2，3
+
+Laravel 1的第一个beta版是在2011年6月发布，完全从头开始写起。 功能主要专注于： 
+ - 自定义的ORM(Eloquent)
+ - 基于闭包的路由
+ - 扩展
+ - form的helper
+ - 表单验证
+ - 认证
+ 等等。
 
 ### Laravel 4
 

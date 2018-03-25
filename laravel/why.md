@@ -56,29 +56,106 @@ CakePHP和CodeIgniter是两个比较早的PHP框架，他们的灵感或多或�
 CodeIgniter简单易用,并且拥有令人惊叹的文档和一个强大的社区。但其对现代技术和先进模式使用比较缓慢，随着框架世界的发展和PHP工具的进步，CodeIgniter开始在先进技术和开箱即用功能方面落后于后者。与许多其他框架不同，CodeIgniter是由一家公司管理，他们很难赶上PHP5.3的新功能，比如命名空间以及迁移到Github和后来的Composer。在2010年，Laravel的创始人Taylor Otwell对使用CodeIgniter
 感到不满足，所以开始编写自己的框架。
 
-### Laravel 1,2，3
+### Laravel 1,23
 
-Laravel 1的第一个beta版是在2011年6月发布，完全从头开始写起。 功能主要专注于： 
- - 自定义的ORM(Eloquent)
- - 基于闭包的路由
- - 扩展
- - form的helper
- - 表单验证
- - 认证
- 等等。
+Laravel 1的第一个beta版是在2011年6月发布，完全从头开始写起。 功能主要专注于： 自定义的ORM(Eloquent),基于闭包的路由,一个扩展模块系统,对于表单的验证，认证助手等等。
+
+早期Laravel的发展迅速，Laravel2和3分别在2011年11月和2012年2月发布。它们包含的功能有：控制器，单元测试，命令行工具，控制反转(IoC)容器,Eloquent关系和迁移。
 
 ### Laravel 4
 
+对于Laravel4， Taylor从头开始重写了整个框架。就Composer这一点,一个先进的包管理工具，正在显示出成为行业标注的迹象，Taylor看到了将框架重写为组件集合，由Composer分发和捆绑在一起的价值。
+
+Taylor以代码`Illuminate`命名下开发了一系列的组件，，在2013年5月，以全新的结构发布了Laravel4。而不是捆绑大部分代码作为下载，Laravel现在从Symfony(另一个发布组件供其他组件使用的框架)和Illuminate组件通过Composer拉取大部分组件。
+
+Laravel4还引入了队列，邮件组件，facede和数据库迁移。由于Laravel现在还依赖于Symfony组件，所以它宣布Laravel将反映Symfony随后六个月的发版计划。
+
 ### Laravel 5
 
-## Laravel的特别之处是什么
+Laravel 4.3是计划于2014年11月发布，但随着开发的进展，显然其变化的重要性值得一个重大发布，所以Laravel 5于2015年2月发布了。
+Laravel 5改进了目录结构，删除了表单和HTML助手，引入`Contract`接口，大量新试图，`Socialte`社交化媒体认证，用于资源编译的`Elixir`, 用于简化`Cron`的调度程序，用于简化环境管理的`.env`，还有表单请求和全新的REPL(read-evaluate-print loop).
+
+## Laravel的特别之处是什么?
+
+那么Laravel的不同之处是什么呢？为什么无论如何它比其他框架更值得去拥有？ 因为它们所有的组件来自Symfony, 对吧？
+让我们来了解一下，什么使Laravel如此特别。
 
 ### Laravel的哲学
 
-### Laravel如何获得开发者的青睐
+你只需要阅读Laravel的推广资料和README就可以看到其存在的价值。Taylor喜欢使用光照相关的词来形容他的作品，比如`Illuminate`, `Spark`。
+
+这个框架最值得传播的两个价值就是提高开发者的速度和开发者的幸福感。
+Laravel的核心是提供更好的装备和支持开发人员。其目标是提供清晰，简单，优美的代码和功能，帮助开发人员快速学习，开始和开发，编写简单、清晰且持久的代码。
+
+针对开发人员的概念在Laravel官方材料中已经很明显。文档中写着：让开发者可以开心的写出最好的代码。开发者从下载到部署都是快乐的是那一段时间的非官方口号。当然，任何工具或框架都说喜欢开发人员赶到高兴。但将开发者的幸福感座位主要关注点，而不是次要的，对Laravel的风格和决策进程产生了巨大的影响。在其他框架可能把建筑纯度作为他们的主要目标，或者与企业开发团队的目标和价值兼容的情况下，Laravel主要的关注点是服务于个人开发者。
+
+### Laravel如何实现开发人员的幸福感
+
+刚刚说的让开发者快乐是一件事，做就是另一回事了，试问自己：在一个框架里最可能让开发者感到不快乐的事情是什么，什么又最可能让他们感到快乐？Laravel试图让开发人员的生活更轻松。
+
+首页，Laravel是一个快速应用开发框架。这也意味着它专注于一个简单的学习曲线和将开始一个应用到发布之间的步骤最小化。这些都是构建一个web应用最常见的任务，从数据库交互到认证、队列，邮件，缓存，都通过Laravel提供的组件变得更简单。Laravel的组件不仅很棒，而且也提供了一致的API和可预测的结构。那也就意味着当你用Laravel写一些新东西的时候，你可能最终会说，它正常工作。
+
+还不以这个框架结束，另外Laravel还提供了一个完整的生态系统用于构建和启动应用的工具。你可以用`Homestead`和`Valet`做本地开发，用`Forge`做服务器管理，`Envoyer`进行高级部署。还有一些额外的组件包：`Cashier`为做支付和订阅，`Echo`用作WebSocket, `Souct`用作搜索， `Passport`用作API认证，`Socialite`用作社会化登录，`Spark`用作引导你的Sass. Laravel尝试去做开发人员重复的工作，以便于他们可以去做其他的事情。
+
+其次，Laravel专注于`约定高于配置`, 意思就是如果你愿意去使用Laravel的一些默认配置，你也可以少做很多工作相比去其他你需要去定义所有配置，甚至你使用推荐配置的框架。构建在Laravel上的框架花费更少的时间比构建在其他大多数的PHP框架。
+
+Laravel深度关注简单性。 用Laravel如果你愿意，使用依赖注入，mokc,数据映射模式，repository, 命令行查询，更复杂的结构查询都是可能的。但是其他的框架可能会建议每个项目使用这些工具和结构，而Laravel和它的文档以及社区更倾向于以最简单的实现开始，比如全局函数，facde, ActiveRecord等。这也就允许开发者门去创建最简单的应用以满足他们的需求。
+
+Laravel与众不同的一个有趣来源是其创建者和社区是与Ruyb和Rails以及函数式编程语言相比，更多地与Java相关，并且受其启发。现代PHP中又一个强大的趋势是倾向于繁琐和负责咋，包含了更多的Java特性。但Laravel倾向于另一面，包含表达式，动态性和简单的面饭实践和语言特征。
 
 ### Laravel社区
 
+如果该系列是你第一次接触到Laravel社区，那么你有一些特别的期待。Laravel一个突出特点是促进了它的发展和成功。
+从Jeffrey Way的Laracasts视频教程到Laravel News到Slack和IRC频道，从twitter到博主，到Laracon会议，Laravel都有一个充满活力的社区。
+
+Taylor 从Laravel 早期就理解到，一个成功的开源项目需要两件事：好的文档和一个受欢迎的社区。这两件事情Laravel都做到了。
+
 ## Laravel如何工作
 
+到目前位置，这里所说的一切整个都比较抽系。你可能会问，代码怎么样？ 让我们来一起看一个简单的应用，以便你能看到Laravel实际是如何工作的。
+
+```
+// File: routes/web.php
+<?php
+
+Route::get('/', function(){
+    return 'Hello, World!';
+})
+?>
+
+```
+
+在Laravel应用中你能做的最简单的动作就是定义一个路由，然后返回一个结果，当有人通过那个路由访问的时候。 
+如果你在你自己的机器上初始化了一个Laravel应用，定义上面的路由，那你可以在public目录里启动你的站点，然后自己访问。
+访问结果就是
+```
+Hello World!
+```
+
+看起来是不是类似于控制器？ 来看下控制器是怎么实现的
+
+```
+// routes/web.php
+<?php
+Route::get('/','WelcomeController@index');
+
+// app/Http/Controllers/WelcomeController.php
+<?php
+namespace app\Http\Controllers;
+
+class WelcomeController
+{
+    public function index()
+    {
+        return 'Hello, World!';
+    }
+}
+```
+
 ## 为什么是Laravel?
+
+所以，说了这么多，知道为什么是Laravel了吧?
+
+因为Laravel可以帮助你讲你的想法变为现实，而不会浪费代码，使用现代编码标准，由充满活力的社区所包围，并且拥有强大的工具生态系统。
+
+所以作为开发者的我们，应该感到高兴。 不是吗？^_^

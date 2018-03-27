@@ -92,7 +92,7 @@ bash ~/Homestead/init.sh
 
 ##### 配置Homestead
 
-打开配置文件 `Homestead.yaml`，对其按照自己的计划进行配置。下面是一个示例：
+打开配置文件 `Homestead.yaml`，对其按照自己的计划进行配置。下面是一个可以直接使用的示例：
 
 ```
     ip: "192.168.10.10"
@@ -131,30 +131,238 @@ bash ~/Homestead/init.sh
     #       protocol: udp
 ```
 
+你需要告诉Homestead.yaml配置文件用哪个`provider`，也就是指定需要使用的虚拟机, 
+`authorize`是需要指向到ssh公钥(默认位于当前用户目录的.ssh目录下`~/.ssh/id_ras.pub`,
+不知道如何生成的话，可以看Github提供的[生成ssh key的简明教程](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)), `folders`和`sites`类似都是映射到本地机器目录，
+只不过一个是映射目录，一个是域名映射，还需要准备一个数据库，基本的配置就这么多。
+
+在Homestead中的映射目录是允许你在本地机器编辑，也就是把目录里的文件放到了Vagrant box里，这样就可以启动对应的站点或应用了。
+例如如果你有一个放置你所有代码的目录`~/Sites`，你可以在Homestead配置文件中把该目录映射取代上面配置文件提到的部分，取代后：
+
+```
+    folders:
+        - map: ~/Sites
+          to: /home/vagrant/Sites
+```
+这样就在Homestead虚拟机里创建了一个目录`/home/vagant/Sites`，并把它映射到了本地机器的`~/Sites`目录。
+
+> 用于开发站点的顶级域名
+> 对于本地开发站点的RUL里，你可以使用任何习惯的域名，但是`.app`和`.dev`是最常用的。Homestead里建议使用`.app`，
+> 所以如果我在为`myapp.com`站点做开发的话，我会在本地使用`myapp.app`域名进行开发。
+> 严格上来说，`.app`和`.dev`都是有效的顶级域名， 所以如果使用它们用于自己内部使用，可能会和真实的域名发生冲突。
+> 这不会打扰到我，但是还是会有些担心，这里提供四个专门用做开发的顶级域名：`.example`,`.test`,`.invalid`, `.localhost`。
+
+现在来建立我们的第一个示例站点，比如线上站点的域名是`projectName.com`，那我在Homestead.yaml里，我会映射本地开发目录到
+`projectName.app`，所以会有一个单独的RUL来访问本地开发环境下的站点。
+
+```
+    sites:
+        - map: projectName.app
+          to: /home/vagrant/Sites/projectName/public
+```
+
+上面这段代码意思就是把`projectName.app`映射到了虚拟机里的`/home/vagrant/Sites/projectName/public`目录，该目录是Laravel项目下的`public`目录。
+最后我们需要告诉本地机器，当你访问`projectName.app`的时候，会找本地机器的ip进行解析。
+Mac和Linux的用户可以编辑`sudo /ets/hosts`, Windows用户编辑`C:\Windows\Sys‐ tem32\drivers\etc\hosts`, 添加下面这一行:
+
+```
+192.168.10.10   projectName.app
+```
+一旦Homestead准备好，你就可以通过浏览器访问`http://projectName.app`了。
+
+
 ##### 在Homestead中创建数据库
+
+类似刚才你在Homestead.yaml定义site一样，也需要定义一个数据库。数据库的定义非常简单，因为你仅仅需要添加一个数据库即可，不用做其他任何操作。
+
+```
+    databases:
+        - projectname
+```
 
 ##### 准备Homestead
 
+因为实际上是第一次启动Homestead box,所以需要告诉Vagrant去初始化。 进入到`Homestead`目录，然后执行`vagrant up`
+
+```
+    cd ~/Homestead
+    vagrant up
+```
+
+现在你的Homestead box已经启动和运行，其实就是一个本地目录镜像，它将会提供给你一个可以在本地机器上的任何浏览器上访问的地址。
+数据库也已经创建好。现在你已经有了一个运行环境，可以准备去建立第一个Laravel项目了。但是我们需要先快速的了解一下Homestead日常是如何使用的。
+
 ##### 日常使用Homestead
+
+通常情况下，你会让Homestead虚拟机是一直处于运行状态，但是如果不是或者你需要重启你的电脑，那么你就需要知道怎样启动和关闭这个box.
+
+既然Homestead是基于Vagrant命令的，那你也就可以使用Vagrant命令用户大部分Homestead的操作管理。
+进入到安装Homestead的目录里，根据需要运行下面的命令：
+
+```
+vagrant up          启动homestead box
+vagrant suspend     生成一个box快照，然后关闭box
+vagrant halt        关闭整个box
+vagrant destroy     删除box
+vagrant provision   重启box
+```
 
 ##### 从桌面客户端连接到Homestead中的数据库
 
+如果你是使用像`Sequel Pro`这样的客户端，想要从本地机器连接到Homestead中的MySQL数据库，可以这样设置：
+
+ - Connection type: Standard (non-SSH)
+ - Host:127.0.0.1
+ - Username:homestead
+ - Password:secret
+ - Port:33060
 
 ## 创建一个新的Laravel项目
 
-### 用Laravel 安装器安装Laravel
+有两种方式可以创建一个新的Laravel项目，但两种都是运行在命令行下。第一种方式是使用Composer全局安装`Laravel installer`工具，第二种方式是使用Composer的 `create-project`选项。下面分别来说下。
 
-### 使用Composer的 create-project 安装Laravel
+### 通过Laravel 安装器安装Laravel
+
+如果已经全局安装了Composer,那安装`Laravel installer`就简单多了。
+
+```
+    composer global require "laravel/installer"
+```
+
+一旦安装成功，新建一个Laravel项目也就变得非常简单了，运行如下命令
+
+```
+    laravel new projectName
+```
+
+### 通过Composer的 create-project 安装Laravel
+
+Composer也提供了一个选项`create-project`用于创建一个包含骨架代码的新项目。要使用该工具来创建新Laravel项目的命令：
+
+```
+    composer create-project laravel/laravel projectName --prefer-dist
+```
+
+和安装器类似，命令执行完以后会在当前目录创建一个`projectName`的子目录，该目录里包含Laravel的基本骨架，可以准备开发了。
 
 ## Laravel的目录结构
 
+当开发新建的目录吼，你会发现包含了Laravel应用的基本骨架，包含的文件和目录如下
+
+```
+    app/ 
+    bootstrap/ 
+    config/ 
+    database/ 
+    public/ 
+    resources/ 
+    routes/ 
+    storage/ 
+    tests/ 
+    vendor/
+    .env 
+    .env.example 
+    .gitattributes 
+    .gitignore 
+    artisan 
+    composer.json 
+    composer.lock 
+    gulpfile.js 
+    package.json 
+    phpunit.xml 
+    readme.md 
+    server.php
+```
+
+下面来一一熟悉一下
+
 ### 目录
 
-### 一些其他文件
+根目录下默认包含的文件夹有
+
+ - app          大多数实际应用的代码都会放到这里，比如 模型，控制器，路由定义，命令工具，以及所有php相关的代码
+ - bootstrap    包含了Laravel框架每次运行时都会启动的文件
+ - config       所有的配置文件都会放到这里
+ - database     存放数据库迁移和种子文件
+ - public       当启动一个站点是，server都会指向到该目录。该目录包含`index.php`, 是一个启动引导并正确路由所有请求的前端控制器，也是面向公众的文件，比如images,样式，脚本，或者下载文件等。
+ - resources    存放的一些非PHP文件，比如：模板文件，语言文件，Sass/LESS 和js文件的原文件。
+ - routes       所有的路由定义都放在这里，既包含HTTP路由，也包含console路由或者Artisan命令
+ - storage      主要存放缓存文件，日志文件，还有编译过的一些系统文件。
+ - tests        单元测试和继承测试文件放这里
+ - vendor       Composer安装的依赖放这里，但是这些依赖不在Git的版本控制里，我们期望Composer也是在远程server部署应用的一部分。
+
+### 零散的文件
+
+ - .env和.env.example   指定环境变量的相关文件，我们期望每个环境使用不同的变量，所以该文件不能放到版本控制里。`.evn.example`是一个模板文件，每个环境都应该一样，有各自的`.env`文件，并且是git忽略的，也就是放到`.gitignore`里。
+ - artisan  该文件允许我们可以在命令行里运行artisan命令(后面会有讲到)
+ - .gitignore和.gitattributes  git的相关配置文件
+ - composer.json 和 composer.lock   用于Composer的配置文件，其中`composer.json`是可以编辑的，`composer.lock`是不能编辑的。`composer.json`可以显示出关于该项目的基本信息，也可以定义PHP相关的一些依赖。
+ - gulpfile.js  Elixir和Gulp的配置文件，用于编译和处理前端资源
+ - package.json 有点类似与composer.json，只不过是用于前端资源的。
+ - phunit.xml   单元测试的配置文件
+ - readme.md    一个Markdown文件，主要是对Laravel提供一个基本的介绍。
+ - server.php   一个备份服务器，试图让性能较差的服务器仍然可以预览Laravel应用。
 
 ## 配置
 
+Laravel应用里的核心配置，比如数据库连接，队列，邮件配置等等，都放在`config`目录里。每一个文件都会返回一个数组，数组里的每一个值都是可以通过一个key来访问的。
+这个key室友文件名和数组里的key组成的，然后用`.`分割。
+所以，如果你创建了一个文件`config/services.php`，如
+
+```
+// config/services.php
+return [
+    'sparkpost' => [
+        'secret' => 'abcdefg'
+    ];
+]
+```
+
+那么如果你想获取数组里`secret`key的值，可以通过使用`config('services.sparkpost.secret')`来获取。
+
+对于每个环境应该是不同的配置变量，所以这些变量应该保存在`.env`文件里。
+来看下如何在不同环境使用不同的API key.
+
+```
+// config/services.php
+return [
+    'weibo' => [
+        'api_key' => env(WEIBO_API_KEY)
+    ]
+]
+```
+
+`env()`此函数主要是从`.env`文件里获取同名key的value值。所以需要添加`WEIBO_API_KEY`key到`.env`和`.env.example`文件中
+
+```
+// .env
+WEIBO_API_KEY=8523KFJSD83583435
+```
+
+默认情况下，`.env`文件中已经包含了很多框架需要的变量，比如要使用到的邮件驱动，基本的数据库配置。
+
 ## 启动和运行
+
+现在可以启动运行安装好的Laravel了。运行`git init`，然后`git add .`，最后提交代码`git commit`，到此就可以开始编写自己的代码了。
+如果你是用`Valet`, 可以运行下面的命令来在浏览器访问你的站点：
+
+```
+    laravel new myProject && cd myProject && valet open
+```
+
+每次我开始一个新项目的时候，都会执行下面的这些步骤
+
+```
+    laravel new myProject
+    cd myProject
+    git init
+    git add .
+    git commit -m 'init commit'
+```
+
+我一直把我的站点代码放在`~/Sites`目录下，我已经把建好的这个目录作为Valet的主要目录了，所以我可以不用做额外的工作就可以在浏览器里访问我的站点`myProject.dev`
+我可以编辑`.env`，配置一个实际的数据库，同时在数据库里添加对应的数据库，然后我就可以开始coding了。
+
 
 ## 测试
 

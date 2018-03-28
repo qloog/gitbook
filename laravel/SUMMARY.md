@@ -1,7 +1,7 @@
 # Summary
 
 * [1. 初识Laravel](README.md)
-* [2. 为什么是Laravel](why.md)
+* [2. 为什么Laravel会脱颖而出](why.md)
 * [3. 安装Laravel开发环境](setup_develop_env.md)
 * [4. 路由和控制器](why.md)
 * 5.Blade模板

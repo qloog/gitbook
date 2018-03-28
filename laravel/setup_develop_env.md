@@ -1,6 +1,6 @@
 # 安装Laravel开发环境
 
-PHP成功的部分就是因为很难去找到一个不能运行PHP的web server。然而现代的PHP工具都比过去的那些有更严格的要求。
+PHP成功的部分就是因为很难去找到一个不能运行PHP的Web Server。然而现代的PHP工具都比过去的那些有更严格的要求。
 用Laravel开发最好的方式是确保有一致的本地和远程服务环境去运行代码，很高兴Laravel生态提供了这些工具。
 
 ## 系统要求
@@ -8,7 +8,7 @@ PHP成功的部分就是因为很难去找到一个不能运行PHP的web server�
 本文所覆盖的所有内容在适用于运行在Windows机器上，但是可能会有很多的操作和说明。如果你是Windows用户，你也可以根据本文内容去实际操作。
 下面所说的内容主要是针对Unix/Linux/macOS上的开发者。
 
-不管你是在本地环境上安装虚拟机`Vagrant`来运行你的开发环境，然后安装PHP和其他工具运行你的站点，还是安装MAMP/WAMP/XAMPP这些工具，你的开发环境都需要去安装下面的依赖来启动你的Laravl站点或应用：
+不管你是在本地机器上安装虚拟机`Vagrant`来运行你的开发环境，然后安装PHP和其他工具运行你的站点，还是安装MAMP/WAMP/XAMPP这些工具，你的开发环境都需要去安装下面的依赖来启动你的Laravel站点或应用：
 
  - PHP>=7.1.3(Laravel5.6) 和 PHP>=7.0.0(Laravel5.5) 和 PHP>=5.6.4(Laravel5.3和5.4) 或 PHP>=5.5.9(5.1和5.2)
  - OpenSSL PHP扩展
@@ -35,8 +35,8 @@ PHP成功的部分就是因为很难去找到一个不能运行PHP的web server�
 
 #### Laravel Valet
 
-如果你想使用PHP内建的web server， 通过使用最简单的参数选项就可以运行一个站点。在Laravel站点的根目录下运行
-`php -S localhost:8000 -t public`, 就可以通过内建web server来访问你的站点，如： `http://localhost:8000`。
+如果你想使用PHP内建的Web Server， 通过使用最简单的参数选项就可以运行一个站点。在Laravel站点的根目录下运行
+`php -S localhost:8000 -t public`, 就可以通过内建Web Server来访问你的站点，如： `http://localhost:8000`。
 也可以通过Laravel提供的命令来运行你的应用`php artisan serve`。
 
 但是如果你对每一个站点从绑定到一个指定的开发域名感兴趣的话，你需要熟悉操作系统的host文件，可以使用第三方工具来操作host，
@@ -44,14 +44,14 @@ PHP成功的部分就是因为很难去找到一个不能运行PHP的web server�
 
 如果你是Mac用户，Laravel Valet不需要将域名指向到应用的目录。Valet安装了 dnsmasq和一系列的PHP脚本，可以让我们输入`laravel new myapp && open myapp.dev`之后正常工作。你需要使用Homebrew安装一些工具，文档将会引导你完成这些工作，但从初始安装到为你的应用提供服务的步骤非常简单。
 
-安装Valet(看[文档](https://laravel.com/docs/5.6/valet)的最新安装说明，将其指向一个或多个网站将要存放的目录。
+安装Valet(看[文档](https://laravel.com/docs/valet)的最新安装说明，将其指向一个或多个网站将要存放的目录。
 我在`~/Sites`目录中运行 `valet park`，然后添加`.dev`到目录名称的结尾，就可以在浏览其中进行访问了。
 
 Valet可以非常容易的服务给定目录里的所有目录作为`FOLDERNAME.dev`，通过使用`valet park`, 使用`valet link`服务于单个目录， 使用`valet open`打开valet服务的域名，使用`valet secure`服务于HTTP的站点，也可以使用`valet share`打开一个`ngrok`通道的站点去分享给其他人。
 
 #### Laravel Homestead
 
-Homestead 可能是你想去使用安装本地开发环境的另一个工具。它是一个基于Vagrant的 配置 工具，提供了个预配置的虚拟机镜像,专为Laravel开发而设定。许多生产环境的Laravel站点也都运行在上面。
+Homestead 可能是你想去使用安装本地开发环境的另一个工具。它是一个基于Vagrant的配置工具，提供了个预配置的虚拟机镜像，专为Laravel开发而设定。许多生产环境的Laravel站点也都运行在上面。
 
 ##### 建立Homestead
 
@@ -59,18 +59,16 @@ Homestead 可能是你想去使用安装本地开发环境的另一个工具。�
 
 Homestead都提供了什么工具？它提供了一些非常重要的工具，这些都是默认自带的：
 
- - 要运行的服务器和移动站点的工具：Ubuntu, PHP(5.6, 7.0, 7.1, 7.2) 和 Nginx, Apacche
- - 数据库存储和队列，如：Mysql,PostgreSQL,Redis,Memcached
+ - 要运行的服务器和运行站点的工具：Ubuntu, PHP(5.6, 7.0, 7.1, 7.2) 和 Nginx, Apache
+ - 数据库存储和队列，如：MySQL, PostgreSQL, Redis, Memcached
  - 构建任务和资源管理的一些工具，都是基于Node的，如：Yarn, Bower, Grunt, Gulp
  - 其他的一些常用工具：Git, Composer
 
 
 ##### 安装Homestead依赖 
 
-首先，需要下载安装`VirtualBox`或者`VMWare`。`VirtualBox`是最常用的，因为它是免费的。
-其次，下载和安装`Vagrant`.
-`Vgrant`是非常方便的，可以让你非常容易的创建一个本地虚拟机从一个预创建的`box`，这个box本质上是一个虚拟机的模板。
-所以下一步就是在终端运行命令来下载box: `vagrant box add laravel/homestead`
+首先，需要下载安装 [VirtualBox](https://www.virtualbox.org/wiki/Downloads) 或者 `VMWare`。`VirtualBox`比较常用而且也是免费的。
+其次，下载和安装 [Vagrant](https://www.vagrantup.com/downloads.html)。`Vagrant`是非常方便的，可以让你非常容易的从一个预创建的`box`创建一个本地虚拟机，这个box本质上是一个虚拟机的模板。所以下一步就是在终端运行命令来下载box: `vagrant box add laravel/homestead`
 
 ##### 安装Homestead
 
@@ -363,7 +361,8 @@ WEIBO_API_KEY=8523KFJSD83583435
 我一直把我的站点代码放在`~/Sites`目录下，我已经把建好的这个目录作为Valet的主要目录了，所以我可以不用做额外的工作就可以在浏览器里访问我的站点`myProject.dev`
 我可以编辑`.env`，配置一个实际的数据库，同时在数据库里添加对应的数据库，然后我就可以开始coding了。
 
+## 总结
 
-## 测试
-
-## TL;LDR
+由于Laravel是一个PHP框架，所以在本地运行也是非常的简单。Laravel提供了两种管理本地开发环境的工具：
+一个是Valet可以为本地机器提供依赖的简单工具，另一个是Homestead的预配置好的Vagrant。Laravel的依赖也可以通过
+Composer进行安装。介绍了一系列反映规范和其他开源工具关联的一些目录和文件。

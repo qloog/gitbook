@@ -1,6 +1,6 @@
 # 安装Laravel开发环境
 
-PHP成功的部分就是因为很难去找到一个不能运行PHP的Web Server。然而现代的PHP工具都比过去的那些有更严格的要求。
+PHP成功的一部分因为就是很难去找到一个不能运行PHP的Web Server。然而现代的PHP工具都比过去的那些有更严格的要求。
 用Laravel开发最好的方式是确保有一致的本地和远程服务环境去运行代码，很高兴Laravel生态提供了这些工具。
 
 ## 系统要求
@@ -8,7 +8,7 @@ PHP成功的部分就是因为很难去找到一个不能运行PHP的Web Server�
 本文所覆盖的所有内容在适用于运行在Windows机器上，但是可能会有很多的操作和说明。如果你是Windows用户，你也可以根据本文内容去实际操作。
 下面所说的内容主要是针对Unix/Linux/macOS上的开发者。
 
-不管你是在本地机器上安装虚拟机`Vagrant`来运行你的开发环境，然后安装PHP和其他工具运行你的站点，还是安装MAMP/WAMP/XAMPP这些工具，你的开发环境都需要去安装下面的依赖来启动你的Laravel站点或应用：
+不管你是在本地机器上安装虚拟机`Vagrant`来运行你的开发环境，然后安装PHP和其他工具运行你的网站，还是安装MAMP/WAMP/XAMPP这些工具，你的开发环境都需要去安装下面的依赖来启动你的Laravel网站或应用：
 
  - PHP>=7.1.3(Laravel5.6) 和 PHP>=7.0.0(Laravel5.5) 和 PHP>=5.6.4(Laravel5.3和5.4) 或 PHP>=5.5.9(5.1和5.2)
  - OpenSSL PHP扩展
@@ -27,11 +27,9 @@ PHP成功的部分就是因为很难去找到一个不能运行PHP的Web Server�
 ### 本地开发环境
 
 对于大多数项目而言，使用一个简单的工具包来搭建开发环境已经足够。如果你的系统上已经安装了`MAMP`或`WAMP`或`XAMPP`,也可以很好的运行Laravel。
-通过使用PHP的内置Server也可以运行Laravel,当然前提是PHP版本是满足要求的。
+通过使用PHP的内置Server也可以运行Laravel,当然前提是PHP版本是满足框架要求的。
 
-你真正需要开始的是你运行PHP的能力，这一些都取决于你。
-
-然而，Laravel也提供了两个本地开发环境工具: `Valet`和`Homestead`, 后面部分都会提到。如果你不确定使用哪一个，我推荐你使用`Valet`, `Homestead`简单略看下就可以了。不管怎样，两个工具都是非常有价值的，也值得理解。
+很高兴Laravel也提供了两个本地开发环境工具: `Valet`和`Homestead`, 后面部分都会提到。如果你不确定使用哪一个，我推荐你使用`Homestead`, `Valet`简单略看下就可以了。不管怎样，两个工具都是非常有价值的，也值得理解。
 
 #### Laravel Valet
 
@@ -55,26 +53,49 @@ Homestead 可能是你想去使用安装本地开发环境的另一个工具。�
 
 ##### 建立Homestead
 
-如果你选择使用Homestead, 可能要比安装像MAMP、Valet多做一点工作。当然益处也是很大的，通过正确的配置，你的本地环境会非常接近于远程工作环境，也就不必担心更新本地机器上的依赖，你也可以完全了解Ubuntu服务器的结构从本地机器上。
+如果你选择使用Homestead, 可能要比安装像MAMP、Valet多做一点工作。当然益处也是很大的，通过正确的配置，你的本地环境会非常接近于远程工作环境，也就不必担心更新本地机器上的依赖，你也可以完全从本地机器上了解Ubuntu服务器的结构。
 
 Homestead都提供了什么工具？它提供了一些非常重要的工具，这些都是默认自带的：
 
  - 要运行的服务器和运行站点的工具：Ubuntu, PHP(5.6, 7.0, 7.1, 7.2) 和 Nginx, Apache
  - 数据库存储和队列，如：MySQL, PostgreSQL, Redis, Memcached
- - 构建任务和资源管理的一些工具，都是基于Node的，如：Yarn, Bower, Grunt, Gulp
+ - 构建任务和资源管理的一些工具，都是基于Node的，如：Yarn, Bower, Grunt, Gulp, Webpack
  - 其他的一些常用工具：Git, Composer
 
 
 ##### 安装Homestead依赖 
 
 首先，需要下载安装 [VirtualBox](https://www.virtualbox.org/wiki/Downloads) 或者 `VMWare`。`VirtualBox`比较常用而且也是免费的。
-其次，下载和安装 [Vagrant](https://www.vagrantup.com/downloads.html)。`Vagrant`是非常方便的，可以让你非常容易的从一个预创建的`box`创建一个本地虚拟机，这个box本质上是一个虚拟机的模板。所以下一步就是在终端运行命令来下载box: `vagrant box add laravel/homestead`
+
+其次，下载和安装 [Vagrant](https://www.vagrantup.com/downloads.html)。`Vagrant`是非常方便的，可以让你非常容易的从一个预创建的`box`创建一个本地虚拟机，这个box本质上是一个虚拟机的模板。所以下一步就是下载并安装box。
+
+下载前先来简单了解一下`vagrant box add`这条命令
+
+```
+➜  ~ vagrant box add -h
+Usage: vagrant box add [options] <name, url, or path>
+```
+
+可以看到该命令支持 `name`，`url`和`path` 安装， 本质其实就是要找到一个box。
+
+###### 在终端运行命令来下载(name方式): 
+
+```
+vagrant box add laravel/homestead
+```
+
+###### 手动下载安装(path方式)
+
+注意的是，这个box大约有1.5G，下载可能会很慢，所以可以考虑通过迅雷来下载(命令下载过程中会有显示box的url)，下载成功之后，运行：
+
+```
+vagrant box add laravel/homestead ~/Downloads/virtualbox.box
+```
+
 
 ##### 安装Homestead
 
-来实际安装下Homestead. 你可以安装多个Homestead实例(每一个项目使用一个不同的Homestead),但我更喜欢单个的Homestead虚拟机为所有的项目。
-如果每个项目一个的话，你需要在每个项目的目录里安装Homestead, 可以看 [Homestead在线文档](https://laravel.com/docs/5.6/homestead)。
-如果为所有项目使用一个虚拟机的话，可以使用以下命令在当前用户的home目录下安装Homestead：
+来实际安装下Homestead. 你可以安装多个Homestead实例(每一个项目使用一个不同的Homestead),但我更喜欢单个的Homestead虚拟机为所有的项目。如果每个项目一个的话，你需要在每个项目的目录里安装Homestead, 可以看 [Homestead在线文档](https://laravel.com/docs/homestead)。如果为所有项目使用一个虚拟机的话，可以使用以下命令在当前用户的home目录下安装Homestead：
 
 ```
 git clone https://github.com/laravel/homestead.git ~/Homestead
@@ -83,10 +104,11 @@ git clone https://github.com/laravel/homestead.git ~/Homestead
 运行homestead的初始化脚本
 
 ```
-bash ~/Homestead/init.sh
-```
+cd ~/Homestead
 
-脚本会新建一个目录`~/.homestead`，并将主要的配置文件`Homestead.yaml`放到该目录里。
+// Mac/Linux
+bash init.sh
+```
 
 ##### 配置Homestead
 
@@ -108,7 +130,7 @@ bash ~/Homestead/init.sh
           to: /home/vagrant/Code
           
     sites:
-        - map: homestead.app
+        - map: homestead.test
           to: /home/vagrant/Code/Laravel/public
 
     databases:
@@ -129,10 +151,7 @@ bash ~/Homestead/init.sh
     #       protocol: udp
 ```
 
-你需要告诉Homestead.yaml配置文件用哪个`provider`，也就是指定需要使用的虚拟机, 
-`authorize`是需要指向到ssh公钥(默认位于当前用户目录的.ssh目录下`~/.ssh/id_ras.pub`,
-不知道如何生成的话，可以看Github提供的[生成ssh key的简明教程](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)), `folders`和`sites`类似都是映射到本地机器目录，
-只不过一个是映射目录，一个是域名映射，还需要准备一个数据库，基本的配置就这么多。
+你需要告诉Homestead.yaml配置文件用哪个`provider`，也就是指定需要使用的虚拟机, `authorize`是需要指向到ssh公钥(默认位于当前用户目录的.ssh目录下`~/.ssh/id_ras.pub`, 不知道如何生成的话，可以看Github提供的[生成ssh key的简明教程](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)), `folders`和`sites`类似都是映射到本地机器目录，只不过一个是映射目录，一个是域名映射，还需要准备一个数据库，基本的配置就这么多。
 
 在Homestead中的映射目录是允许你在本地机器编辑，也就是把目录里的文件放到了Vagrant box里，这样就可以启动对应的站点或应用了。
 例如如果你有一个放置你所有代码的目录`~/Sites`，你可以在Homestead配置文件中把该目录映射取代上面配置文件提到的部分，取代后：
@@ -145,13 +164,13 @@ bash ~/Homestead/init.sh
 这样就在Homestead虚拟机里创建了一个目录`/home/vagant/Sites`，并把它映射到了本地机器的`~/Sites`目录。
 
 > 用于开发站点的顶级域名
-> 对于本地开发站点的RUL里，你可以使用任何习惯的域名，但是`.app`和`.dev`是最常用的。Homestead里建议使用`.app`，
-> 所以如果我在为`myapp.com`站点做开发的话，我会在本地使用`myapp.app`域名进行开发。
+> 对于本地开发站点，你可以使用任何习惯的域名，Homestead里建议使用`.test`，
+> 所以如果我在为`myapp.com`站点做开发的话，我会在本地使用`myapp.test`域名进行开发。
 > 严格上来说，`.app`和`.dev`都是有效的顶级域名， 所以如果使用它们用于自己内部使用，可能会和真实的域名发生冲突。
-> 这不会打扰到我，但是还是会有些担心，这里提供四个专门用做开发的顶级域名：`.example`,`.test`,`.invalid`, `.localhost`。
+> 这里提供四个专门用做开发的顶级域名：`.example`,`.test`,`.invalid`, `.localhost`。
 
 现在来建立我们的第一个示例站点，比如线上站点的域名是`projectName.com`，那我在Homestead.yaml里，我会映射本地开发目录到
-`projectName.app`，所以会有一个单独的RUL来访问本地开发环境下的站点。
+`projectName.test`，所以会有一个单独的URL来访问本地开发环境下的站点。
 
 ```
     sites:
@@ -159,14 +178,15 @@ bash ~/Homestead/init.sh
           to: /home/vagrant/Sites/projectName/public
 ```
 
-上面这段代码意思就是把`projectName.app`映射到了虚拟机里的`/home/vagrant/Sites/projectName/public`目录，该目录是Laravel项目下的`public`目录。
-最后我们需要告诉本地机器，当你访问`projectName.app`的时候，会找本地机器的ip进行解析。
-Mac和Linux的用户可以编辑`sudo /ets/hosts`, Windows用户编辑`C:\Windows\Sys‐ tem32\drivers\etc\hosts`, 添加下面这一行:
+上面这段代码意思就是把`projectName.test`映射到了虚拟机里的 `/home/vagrant/Sites/projectName/public` 目录，该目录是Laravel项目下的`public`目录。
+
+最后我们需要告诉本地机器，当你访问`projectName.test`的时候，会找本地机器的IP进行解析。
+Mac和Linux的用户可以编辑`sudo vim /ets/hosts`, Windows用户编辑`C:\Windows\Sys‐ tem32\drivers\etc\hosts`, 添加下面这一行:
 
 ```
-192.168.10.10   projectName.app
+192.168.10.10   projectName.test
 ```
-一旦Homestead准备好，你就可以通过浏览器访问`http://projectName.app`了。
+一旦Homestead准备好，你就可以通过浏览器访问`http://projectName.test`了。
 
 
 ##### 在Homestead中创建数据库
@@ -194,7 +214,7 @@ Mac和Linux的用户可以编辑`sudo /ets/hosts`, Windows用户编辑`C:\Window
 
 通常情况下，你会让Homestead虚拟机是一直处于运行状态，但是如果不是或者你需要重启你的电脑，那么你就需要知道怎样启动和关闭这个box.
 
-既然Homestead是基于Vagrant命令的，那你也就可以使用Vagrant命令用户大部分Homestead的操作管理。
+既然Homestead是基于Vagrant命令的，那你也就可以使用Vagrant命令用于大部分Homestead的操作管理。
 进入到安装Homestead的目录里，根据需要运行下面的命令：
 
 ```
@@ -274,7 +294,7 @@ Composer也提供了一个选项`create-project`用于创建一个包含骨架�
 
 下面来一一熟悉一下
 
-### 目录
+### 涉及到的目录
 
 根目录下默认包含的文件夹有
 
@@ -304,8 +324,7 @@ Composer也提供了一个选项`create-project`用于创建一个包含骨架�
 ## 配置
 
 Laravel应用里的核心配置，比如数据库连接，队列，邮件配置等等，都放在`config`目录里。每一个文件都会返回一个数组，数组里的每一个值都是可以通过一个key来访问的。
-这个key室友文件名和数组里的key组成的，然后用`.`分割。
-所以，如果你创建了一个文件`config/services.php`，如
+这个key是由文件名和数组里的key组成的，然后用`.`分割。所以，如果你创建了一个文件`config/services.php`，如
 
 ```
 // config/services.php
@@ -318,8 +337,7 @@ return [
 
 那么如果你想获取数组里`secret`key的值，可以通过使用`config('services.sparkpost.secret')`来获取。
 
-对于每个环境应该是不同的配置变量，所以这些变量应该保存在`.env`文件里。
-来看下如何在不同环境使用不同的API key.
+对于每个环境应该是不同的配置变量，所以这些变量应该保存在`.env`文件里。来看下如何在不同环境使用不同的API key.
 
 ```
 // config/services.php
@@ -341,28 +359,8 @@ WEIBO_API_KEY=8523KFJSD83583435
 
 ## 启动和运行
 
-现在可以启动运行安装好的Laravel了。运行`git init`，然后`git add .`，最后提交代码`git commit`，到此就可以开始编写自己的代码了。
-如果你是用`Valet`, 可以运行下面的命令来在浏览器访问你的站点：
-
-```
-    laravel new myProject && cd myProject && valet open
-```
-
-每次我开始一个新项目的时候，都会执行下面的这些步骤
-
-```
-    laravel new myProject
-    cd myProject
-    git init
-    git add .
-    git commit -m 'init commit'
-```
-
-我一直把我的站点代码放在`~/Sites`目录下，我已经把建好的这个目录作为Valet的主要目录了，所以我可以不用做额外的工作就可以在浏览器里访问我的站点`myProject.dev`
-我可以编辑`.env`，配置一个实际的数据库，同时在数据库里添加对应的数据库，然后我就可以开始coding了。
+现在可以启动运行安装好的Laravel了。运行 `vagrant up`, 根据host里绑定的域名就可以访问配置好的网站了。
 
 ## 总结
 
-由于Laravel是一个PHP框架，所以在本地运行也是非常的简单。Laravel提供了两种管理本地开发环境的工具：
-一个是Valet可以为本地机器提供依赖的简单工具，另一个是Homestead的预配置好的Vagrant。Laravel的依赖也可以通过
-Composer进行安装。介绍了一系列反映规范和其他开源工具关联的一些目录和文件。
+由于Laravel是一个PHP框架，所以在本地运行也是非常的简单。Laravel提供了两种管理本地开发环境的工具：一个是Valet可以为本地机器提供依赖的简单工具，另一个是Homestead的预配置好的Vagrant。Laravel的依赖也可以通过Composer进行安装。介绍了一系列反映规范和其他开源工具关联的一些目录和文件。

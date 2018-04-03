@@ -3,7 +3,7 @@
 * [1. 初识Laravel](README.md)
 * [2. 为什么Laravel会脱颖而出](why.md)
 * [3. 安装Laravel开发环境](setup_develop_env.md)
-* [4. 路由和控制器](why.md)
+* [4. 路由和控制器](route_and_controller.md)
 * 5.Blade模板
 * 6.前端组件
 * 7.收集和处理用户数据

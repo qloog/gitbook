@@ -298,7 +298,7 @@ public function boot()
 
 其次是使用基于闭包的视图组合来共享单个视图的变量，如下。
 
-```
+```php
 view()->composer('partials.sidebar', function ($view) { 
     $view->with('posts', Post::recent());
 });
@@ -309,7 +309,7 @@ view()->composer('partials.sidebar', function ($view) {
 > *多视图使用视图组装*
 > 任何一个视图组装都可以绑定到一个特定的视图，也可以传递一个视图名称数组来绑定到多个视图。也可以在视图路径中使用星号，如 `partials.*`，`tasks.*` 或仅 `*`：
 
-```
+```php
 view()->composer(
 ['partials.header', 'partials.footer'], 
     function () {
@@ -317,7 +317,7 @@ view()->composer(
     }
 );
 
-view()->composer('partials.*', function () { 
+view()->composer('partials.*', function () {
     $view->with('posts', Post::recent());
 });
 ```
@@ -327,7 +327,7 @@ view()->composer('partials.*', function () {
 最后，最灵活也最复杂的选择是为视图组装创建一个专门的类。
 首先，我们来创建视图组合类。 视图组合没有正式定义的地方，但文档推荐 `App\Http\ViewComposers`。 因此，让我们创建 `App\Http\ViewComposers\RecentPostsComposer`。
 
-```
+```php
 <?php
 
 namespace App\Http\ViewComposers;
@@ -335,16 +335,16 @@ namespace App\Http\ViewComposers;
 use App\Post;
 use Illuminate\Contracts\View\View;
 
-class RecentPostsComposer 
+class RecentPostsComposer
 {
     private $posts;
 
-    public function __construct(Post $posts) 
+    public function __construct(Post $posts)
     {
         $this->posts = $posts;
     }
 
-    public function compose(View $view) 
+    public function compose(View $view)
     {
         $view->with('posts', $this->posts->recent());
     }
@@ -355,9 +355,10 @@ class RecentPostsComposer
 
 和共享变量的其他方法一样，这个视图组合需要在某个地方绑定。 再次，你可能会创建一个自定义的 `ViewComposerServiceProvider`，但现在，如下示例所示，我们将它放在 `App\Providers\AppServiceProvider` 的 `boot()`方法中。
 
-```
+```php
+
 // AppServiceProvider
-public function boot() 
+public function boot()
 {
     ...
     view()->composer(
@@ -372,10 +373,70 @@ public function boot()
 
 ### Blade服务注入
 
+我们最可能注入到视图里的数据主要有三种类型：可以递归的数据集合，可以显示在页面的单个对象，还有可以生成数据或视图的service。
+作为一个service，这种模式看起来会是下面例子中所展现的，通过在路由定义的闭包函数的参数里注入一个service实例到路由定义里。
+
+```php
+Route::get('backend/sales', function (AnalyticsService $analytics) { 
+    return view('backend.sales-graphs')
+        ->with('analytics', $analytics);
+});
+```
+
+Blade的服务注入可以很容易的直接从视图中向容器外部注入类的实例。
+
+* 直接注入serivce到视图 *
+
+```php
+@inject('analytics', 'App\Services\Analytics')
+<div class="finances-display">
+     {{ $analytics->getBalance() }} / {{ $analytics->getBudget() }}
+</div>
+```
+
+实际上，`@inject` 指令是生成了一个 `analytics` 的变量，方便我们在视图中使用。
+
+其中第一个参数是要住入的变量名，第二个是要注入的类或者接口的实例。
+
 ## 自定义Blade directives
 
-### 自定义 directives 的参数
+到目前位置我们提到的 Blade 所有内建的语法，如 `@if`, `@unless` 等，每一个指令都和PHP原生的指令有一些对应关系。除了框架提供的这些指令，我们也可以自己创建一些满足我们需求的指令。
 
-### 示例：使用自定义 directives
+我已经发现自定义的一些指令是非常有用的，它可以帮助我们简化一些重复的逻辑。比如我们可以通过 `@if (auth()->guest())` 来判断一个用户是登录还是没有登录，我们来自定义一个指令 `@ifGuest()`，同时要绑定到 Blade 模板引擎上。
+
+* 绑定自定义指令到Blade上 *
+
+```php
+// AppServiceProvider
+    public function boot() {
+        Blade::directive('ifGuest', function () {
+            return "<?php if (auth()->guest()): ?>";
+        });
+    }
+```
+
+很明显，`@ifGuest` 指令转换为原生PHP代码就是 `<?php if (auth()->guest()): ?>`
+
+### 自定义 Blade 指令 的参数
+
+如果要在自定义指令里使用参数，该如何写？ 看下面的例子
+
+```php
+// Binding
+Blade::directive('newlinesToBr', function ($expression) { 
+    return "<?php echo nl2br({$expression}); ?>";
+});
+
+// In use
+<p>@newlinesToBr($message->body)</p>
+```
+
+如果你经常一遍又一遍的写一些重复的条件判断逻辑，那可以考虑使用自定义指令。
 
 ## 总结
+
+Blade 是 Laravel 的一个模板引擎。主要关注点是清晰，简洁和具有强大继承性和扩张性的表达式语法。它有一个安全的输出语法 `{{` and `}}`，和一个非安全的输出 `{!!` 和 `!!}`。也有一些以 `@` 开头的自定义指令集，如 `@if`, `@for`。
+
+你可以使用父模板，在其中定义 `@yield` 和 `@section/@show`，然后子模板可以使用 `@extends('parent.view.name')` 集成，并定义属于子模板的section  `@sectin/@endsection`。也可以通过 `@parent` 引用父模板的内容。
+
+最后提到了视图组合和服务注入，都非常方便的特性。

@@ -1,9 +1,9 @@
-# 安装Laravel开发环境
+# 安装Laravel本地开发环境
 
 PHP成功的一部分因为就是很难去找到一个不能运行PHP的Web Server。然而现代的PHP工具都比过去的那些有更严格的要求。
 用Laravel开发最好的方式是确保有一致的本地和远程服务环境去运行代码，很高兴Laravel生态提供了这些工具。
 
-## 系统要求
+### 系统要求
 
 本文所覆盖的所有内容在适用于运行在Windows机器上，但是可能会有很多的操作和说明。如果你是Windows用户，你也可以根据本文内容去实际操作。
 下面所说的内容主要是针对Unix/Linux/macOS上的开发者。
@@ -193,7 +193,7 @@ Mac和Linux的用户可以编辑`sudo vim /ets/hosts`, Windows用户编辑`C:\Wi
 
 类似刚才你在Homestead.yaml定义site一样，也需要定义一个数据库。数据库的定义非常简单，因为你仅仅需要添加一个数据库即可，不用做其他任何操作。
 
-```
+```shell
     databases:
         - projectname
 ```
@@ -202,7 +202,7 @@ Mac和Linux的用户可以编辑`sudo vim /ets/hosts`, Windows用户编辑`C:\Wi
 
 因为实际上是第一次启动Homestead box,所以需要告诉Vagrant去初始化。 进入到`Homestead`目录，然后执行`vagrant up`
 
-```
+```shell
     cd ~/Homestead
     vagrant up
 ```
@@ -243,13 +243,13 @@ vagrant provision   重启box
 
 如果已经全局安装了Composer,那安装`Laravel installer`就简单多了。
 
-```
+```bash
     composer global require "laravel/installer"
 ```
 
 一旦安装成功，新建一个Laravel项目也就变得非常简单了，运行如下命令
 
-```
+```bash
     laravel new projectName
 ```
 

@@ -1,21 +1,22 @@
-
+# 路由和控制器
 
 ## 简介
 
-任何Web应用框架必要的功能就是获取用户的请求并返回一个响应， 一般是通过HTTP(S)。也就意味着当学习一个Web框架的时候，定义一个应用的路由是第一位的，同时也是要去解决的最重要的部分， 没有路由，你是没法和终端用户交互的。
+任何Web应用框架必要的功能就是获取用户的请求并返回一个响应， 一般是通过HTTP(S)。也就意味着当学习一个Web框架的时候，定义一个应用的路由是第一位的，同时也是要去解决的最重要的部分，没有路由，你是没法和终端用户交互的。
 
-在本文，我们回去学习Laravel的路由，看看如何定义它们，如何把它们指到要执行代码的地方，怎么样使用Laravel的路由工具来处理不同的路由。
+在本文，我们会学习Laravel的路由，看看如何定义它们，如何把它们指到要执行代码的地方，怎么样使用Laravel的路由工具来处理不同的路由。
 
 ## 路由定义
 
-在Laravel应用里，`Web`相关的路由定义在`routes/web.php`里，`API`相关的路由定义在`routes/api.php`里。Web路由会被终端用户访问到，而`API`路由主要是应用与API，比如你有一个移动客户端。接下来的内容，我们主要关注在web路由 `routes/web.php`。
+在Laravel应用里，Web 相关的路由定义在 `routes/web.php` 里，API 相关的路由定义在 `routes/api.php` 里。Web 路由会被终端用户访问到，而 API 路由主要是应用与API，比如你有一个移动客户端。接下来的内容，我们主要关注在web路由 `routes/web.php`。
 
 > 如果Laravel版本早于5.3， 只有一个路由文件 `app/Http/routes.php`
 
 定义一个路由最简单的方式就是匹配一个带有闭包的根路径(比如： `/`)，比如
 
-基本路由定义
-```
+* 基本路由定义 *
+
+```php
 // routes/web.php
 Route::get('/', function() {
     return 'Hello, World!';
@@ -25,48 +26,51 @@ Route::get('/', function() {
 > 什么是闭包？
 > 闭包是PHP的匿名函数版本。更详细的说闭包是一个可以作为对象传递，分配给变量，作为参数传递给其他函数和方法，甚至可以序列化。
 
-现在你已经定义了一个路由，如果有人访问 `/`， Laravel有路会执行定义好的闭包并返回结果。 注意这里是 `return` 内容而不是  `echo` 或 `print`。
+现在你已经定义了一个路由，如果有人访问 `/`， Laravel 路由会执行定义好的闭包并返回结果。 注意这里是 `return` 内容而不是  `echo` 或 `print`。
 
 > 快速了解中间件
 > 你可能想要知道，为什么是 `return` `Hello World!` 代替 `echo`。
-> 这里也有不少答案，但是最简单的是Laravel的请求和响应周期有很多包装，包括中间件。当路由闭包或者控制器方法执行完的时候，还没有时间将输出发送到浏览器；返回内容允许它在返回给用户之前继续流过响应堆栈和中间件。
+> 这里也有不少答案，但是最简单的是 Laravel 的请求和响应周期有很多包装，包括中间件。当路由闭包或者控制器方法执行完的时候，还没有时间将输出发送到浏览器；返回内容允许它在返回给用户之前继续流过响应堆栈和中间件。
 
-许多简单的网站可以完全定义在web路由文件里。一些简单的`GET`路由也可以和模板组合着用，你可以很容易的启动一个网站，比如
+许多简单的网站可以完全定义在web路由文件里。一些简单的 GET 路由也可以和模板组合着用，你可以很容易的启动一个网站，比如
 
-简单网站
-```
-Route::get('/', function () { 
+* 简单网站 *
+
+```php
+Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('about', function () { 
+Route::get('about', function () {
     return view('about');
 });
 
 Route::get('products', function () {
-    return view('products'); 
+    return view('products');
 });
 
-Route::get('services', function () { 
+Route::get('services', function () {
     return view('services');
 });
 ```
 
 > 关于静态调用
-> 如果你用PHP开发有一些经验， 你看到对于路由类的静态调用可能有一些惊讶。实际上这不是一个静态方法，而是使用了Laravel的`facade`， 后面会有文章专门来介绍。
+> 如果你对PHP开发有一些经验，你看到对于路由类的静态调用可能有一些惊讶。实际上这不是一个静态方法，而是使用了Laravel的 `facade`， 后面会有文章专门来介绍。
 > 如果你不喜欢facade， 你也可以完成相同的定义，如
-> ```
-> $router->get('/', function () { 
->    return 'Hello, World!';
-> });
-> 
+
+```php
+$router->get('/', function () {
+   return 'Hello, World!';
+});
+```
 
 ### 路由动作
 
-你可能注意到我们已经在路由定义里使用过 `Route::get`。这意思就是我们告诉Laravel当有一个HTTP请求使用`GET`时只能匹配到这条路由。那如果是form的 `POST`, 或者是JavaScript发送了 `PUT` 或者 `DELETE` 请求呢？ 下面有一些在路由定义时可以用的其他选项。
+你可能注意到我们已经在路由定义里使用过 `Route::get`。这意思就是我们告诉 Laravel 当有一个HTTP请求使用 GET 时只能匹配到这条路由。那如果是form的 POST, 或者是JavaScript发送了 PUT 或者 DELETE 请求呢？ 下面有一些在路由定义时可以用的其他选项。
 
-路由动作
-```
+* 路由动作 *
+
+```php
 Route::get('/', function(){
     return 'Hello, World!';
 });
@@ -75,114 +79,113 @@ Route::post('/', function(){});
 
 Route::put('/', function(){});
 
-Route::delete('/', function () {}); 
+Route::delete('/', function () {});
 
-Route::any('/', function () {}); 
+Route::any('/', function () {});
 
 Route::match(['get', 'post'], '/', function () {});
 ```
 
 ### 路由处理
 
-正如你可能已经猜到的那样，将闭包传递给路由定义并不是教导它如何解决路由的唯一方法。闭包是快速且简单，但是应用程序越大，将所有路由逻辑放在一个文件中变得越笨拙。另外，使用路由闭包的应用也不能使用Laravel路由缓存，还可以为每个请求减少几百毫秒。
+正如你可能已经猜到的那样，将闭包传递给路由定义并不是教导它如何解决路由的唯一方法。闭包是快速且简单，但是应用程序越大，将所有路由逻辑放在一个文件中变得越笨拙。另外，使用路由闭包的应用也不能使用 Laravel 路由缓存(使用路由缓存可以为每个请求减少几百毫秒)。
 
 另一个常用的选项是传递一个控制器和方法名作为一个字符串代替闭包，例如
 
-```
+```php
 Route::get('/', 'WelcomeController@index');
 ```
 
-该命令是告诉Laravel把请求传给 `App\Http\Controllers\WelcomeController` 控制器的 `index()` 方法。而且也可以传递与闭包相同的参数。
+该命令是告诉 Laravel 把请求传给 `App\Http\Controllers\WelcomeController` 控制器的 `index()` 方法。而且也可以传递与闭包相同的参数。
 
 ### 路由参数
 
 如果你定义的路由有参数，在路由中定义它们并把它们传递给闭包也是非常简单的。
 
-*路由参数*
-```
+* 路由参数 *
+
+```php
 Route::get('users/{id}/friends', function($id) {
     // your code
 });
 ```
 
-
 > 关于 **路由参数和闭包/控制器里方法参数之间的命名关系**
-> 
 > 这里要多说一下，可能很多人对这里都会有些疑问。
-> 
 > 如你看到上面这个路由参数的例子，它是非常常见的，用于路由参数(`{id}`)和注入到路由定义里(`function($id)`)的方法参数使用相同的参数名。但是这有必要这么做么？
-> 
 > 除非你使用路由/模型绑定, 否则是没有必要的。定义的路由参数匹配哪一个方法参数唯一要注意的是他们的顺序(从左到右)，看下面的例子
-> 
-> ```
-> Route::get('users/{userId}/comments/{commentId}', function ( 
->     $thisIsActuallyTheUserId,
->     $thisisReallyTheCommentId
-> ){
->     //
-> });
-> ```
-> 
-> 我推荐它们保持一致，通过命名相同可以减少错误。 // todo
- 
+
+```php
+Route::get('users/{userId}/comments/{commentId}', function (
+    $thisIsActuallyTheUserId,
+    $thisisReallyTheCommentId
+){
+    //
+});
+```
+
+> 我推荐它们保持一致，通过命名相同可以减少错误。
+
 通过在参数名后面使用`?`也可以让路由参数变为可选。看下面的代码，这个case中，给参数提供了一个默认值。
 
-*可选的路由参数*
-```
-Route::get('users/{id?}', function ($id = 'fallbackId') { 
+* 可选的路由参数 *
+
+```php
+Route::get('users/{id?}', function ($id = 'fallbackId') {
     //
 });
 ```
 
 你也可以使用正则表达式来定义一个路由，该路由只有参数满足实际的要求才会匹配，如
 
-*正则表达式路由*
-```
-Route::get('users/{id}', function ($id) { 
+* 正则表达式路由 *
+
+```php
+Route::get('users/{id}', function ($id) {
     //
 })->where('id', '[0-9]+');
 
-Route::get('users/{username}', function ($username) { 
+Route::get('users/{username}', function ($username) {
     //
-})->where('username', '[A-Za-z]+'); 
+})->where('username', '[A-Za-z]+');
 
 Route::get('posts/{id}/{slug}', function ($id, $slug) {
     //
 })->where(['id' => '[0-9]+', 'slug' => '[A-Za-z]+']);
 ```
 
-如果你访问的路径匹配到了一个路由，但是正则表达式不匹配参数，那最终也不会匹配到。由于路由匹配是从上到下的，所以 `/users/abc`会跳过第一个路由，但是会匹配到第二条闭包路由。另一方面 `posts/abc/123` 不会匹配到任何一条路由，所以会返回 `404 Not Found`的错误。
+如果你访问的路径匹配到了一个路由，但是正则表达式不匹配参数，那最终也不会匹配到。由于路由匹配是从上到下的，所以 `/users/abc` 会跳过第一个路由，但是会匹配到第二条闭包路由。另一方面 `posts/abc/123` 不会匹配到任何一条路由，所以会返回 `404 Not Found`的错误。
 
 ### 路由名称
 
 在应用中使用这些路由最简单的方式就是只使用他们的路径(`path`)。`url()` helper 可以简化视图里的链接。看下面的例子，helper 会给路由前面加上网站的完整域名。
 
-*URL helper*
-```
+* URL helper *
+
+```php
 <a href="<?php echo url('/'); ?>">
 // outputs <a href="http://myapp.com/">
 ```
 
 而且Laravel还允许你给每个路由起一个名字，使你可以在不明确引用URL的情况下使用它。这很有帮助，因为这意味着你可以给复杂的路由提供简单的昵称，并且因为按名称链接它们意味着如果路径更改，则不必重写前端链接。
 
-*定义路由名称*
-```
+* 定义路由名称 *
+
+```php
 // Defining a route with name in routes/web.php:
-Route::get('members/{id}', 'MembersController@show')->name('members.show'); 
+Route::get('members/{id}', 'MembersController@show')->name('members.show');
 
 // Link the route in a view using the route() helper
 <a href="<?php echo route('members.show', ['id' => 14]); ?>">
 ```
 
-这个例子也提到了几个新的概念。首先是可以通过在 `get()` 方法之后通过链式方法 `name()` 使用熟练的路由定义来添加名称。然后这个方法允许我们指定一个简短的别名，来在其他地方更容易的使用。
+这个例子也提到了几个新的概念。首先是可以通过在 `get()` 方法之后通过链式方法 `name()` 使用熟练的路由定义来添加名称。然后这个方法允许我们指定一个简短的别名，来在其他地方更容易使用。
 
 我们命名路由为 `members.show`， 资源复数 在Laravel的路由和视图名也是常用的规范。
 
-> *关于路由命名规范*
->
+> * 关于路由命名规范 *
 > 你可以命名路由按照你喜欢的方式，但是常用到的规范是使用资源名称复数，然后使用一个点 `.`, 然后是具体的动作。这里有一组给图片资源命名的最常用到的路由名称：
-> 
-> ```
+> ```shell
 >     photos.index
 >     photos.create
 >     photos.store
@@ -192,41 +195,40 @@ Route::get('members/{id}', 'MembersController@show')->name('members.show');
 >     photos.destroy
 > ```
 
-我们也介绍过 `route()` helper, 就像 `url()` 一样，它的目的是在视图中使用，以简化与命名路由的链接。如果路由里没有参数，你可以简单的传一个路由名 `route('members.index')` ，然后会收到一个路由字符串 `http://myapp.com/members/index`。如果有参数，以数组的形式传入第二个参数里。
+我们也介绍过 `route()` helper, 就像 `url()` 一样，它的目的是在视图中使用，以简化与命名路由的链接。如果路由里没有参数，你可以简单的传一个路由名 `route('members.index')` ，转化后的结果为： `http://myapp.com/members/index`。如果有参数，以数组的形式传入第二个参数里。
 
 一般情况下，我推荐使用路由昵称来代替使用路由路径，因此使用 `route()` 代替 `url()`。
 
-
-> *关于传递路由参数到route()*
-> 
+> * 关于传递路由参数到route() *
+>
 > 当路由有参数的时候(比如: `users/{id}`), 在使用 `route()` 生成链接给路由的时需要定义这些参数。
-> 
+>
 > 传递参数有几种不同的方式，设想一个路由是 `users/{userId}/comments/{commentId}`。 如果用户ID是1，评论ID是2，来看下我们可以使用的几种方式：
-> 
+>
 > 方式1：
-> ```
-> route('users.comments.show', [1, 2]) 
+> ```php
+> route('users.comments.show', [1, 2])
 > // http://myapp.com/users/1/comments/2
 > ```
-> 
+>
 > 方式2：
-> ```
-> route('users.comments.show', ['userId' => 1, 'commentId' => 2]) 
+> ```php
+> route('users.comments.show', ['userId' => 1, 'commentId' => 2])
 > // http://myapp.com/users/1/comments/2
 > ```
-> 
+>
 > 方式3：
-> ```
-> route('users.comments.show', ['commentId' => 2, 'userId' => 1]) 
+> ```php
+> route('users.comments.show', ['commentId' => 2, 'userId' => 1])
 > // http://myapp.com/users/1/comments/2
 > ```
-> 
+>
 > 方式4：
-> ```
-> route('users.comments.show', ['userId' => 1, 'commentId' => 2, 'opt' => 'a']) 
+> ```php
+> route('users.comments.show', ['userId' => 1, 'commentId' => 2, 'opt' => 'a'])
 > // http://myapp.com/users/1/comments/2?opt=a
 > ```
-> 
+>
 > 如你所见，没有key的数组是需要按顺序指定的，带有key的数组通过和路由里的key进行匹配，剩下的会被作为查询参数。
 
 ## 路由组
@@ -238,7 +240,8 @@ Route::get('members/{id}', 'MembersController@show')->name('members.show');
 要讲两个或更多个路由组合到一起，你要围绕一组路由。如下
 
 *定义一组路由*
-```
+
+```php
 Route::group([], function(){
     Route::get('hello', function() {
         return 'Hello';
@@ -259,7 +262,8 @@ Route::group([], function(){
 下面的例子，是我们创建了一个路由组，包含 `dashboard` 和 `account` 视图，应用 `auth` 中间件到这两个路由。在这个例子中也就意味着用户必须登录到应用里来看 `dashboard` 和 `account` 页。
 
 *只有登录用户可以访问的路由组*
-```
+
+```php
 Route::group(['middleware' => 'auth'], function(){
     Route::get('dashboard', function(){
         return view('dashboard');
@@ -271,20 +275,19 @@ Route::group(['middleware' => 'auth'], function(){
 });
 ```
 
-**关于在控制器中使用中间件**
+*关于在控制器中使用中间件*
 
 经常在控制器中使用路由中间件比在路由定义里可能更清晰，更直接。你可以在控制器的构造方法里使用 `middleware()` 方法来做到。给 `middleware()` 传递的参数就是中间件的名称。你也可以链式调用一些方法(比如: `only()`, `except()`) 来定义哪些方法将接受该中间件。
 
-```
-
+```php
 class DashboardController extends Controller {
-    public function __construct() 
+    public function __construct()
     {
        $this->middleware('auth');
 
        $this->middleware('admin-auth')
             ->only('admin');
-        
+
         $this->middleware('team-member')
            ->except('admin');
 } }
@@ -294,10 +297,11 @@ class DashboardController extends Controller {
 
 ### 路径前缀
 
-如果你有一组路由要共享一个path， 比如你网站的API是以 `/api`开头的，那就可以使用路由组来指定这个结构，如
+如果你有一组路由要共享一个path， 比如你网站的API是以 `/api` 开头的，那就可以使用路由组来指定这个结构，如
 
 *前缀路由组*
-```
+
+```php
 Route::group(['prefix' =>'api'], function(){
     Route::get('/', function(){
         // handle the path /api
@@ -318,7 +322,8 @@ Route::group(['prefix' =>'api'], function(){
 第一种，你可以让整个应用分为不同的几个部分(或不同的应用)到不同的子域名，来看下怎么实现
 
 *子域名路由*
-```
+
+```php
 Route::group(['domain' => 'api.myapp.com'], function(){
     Route::get('/', function(){
         //
@@ -329,7 +334,8 @@ Route::group(['domain' => 'api.myapp.com'], function(){
 第二种，你也可以将子域名的一部分作为参数，最常见的例子就是slack，比如每一个公司都有自己的子域名 `phpcasts.slack.co`。
 
 *参数化的子域名*
-```
+
+```php
 Route::get(['domain' => '{account}.myapp.com'], function(){
     Route::get('/', function($account) {
         //
@@ -348,9 +354,10 @@ Route::get(['domain' => '{account}.myapp.com'], function(){
 当你按子域名或路由前缀对路由进行分组时，很可能他们的控制器有一个类似PHP命名空间。在API的例子里，所有的API路由控制器可能都在 `API` 命名空间。 通过使用路由组命名空间前缀，可以避免在诸如 `API/ControllerA@index` 和 `API/ControllerB@index` 之类的组中使用较长的控制器引用。
 
 *路由组命名空间前缀*
-```
+
+```php
 // App\Http\Controllers\ControllerA
-Route::get('/', 'ControllerA@index'); 
+Route::get('/', 'ControllerA@index');
 
 Route::group(['namespace' => 'API'], function () {
     // App\Http\Controllers\API\ControllerB
@@ -363,11 +370,12 @@ Route::group(['namespace' => 'API'], function () {
 前缀并不止于此。通常路由名称会反映路径元素的继承链，因此 `users/comments/5` 将由名为 `users.comments.show` 的路由提供服务。 在这种情况下， 通常在 `users.comments` 资源下的所有路由上层使用路由组。
 
 *路由名称前缀*
-```
+
+```php
 Route::group(['as' => 'users.', 'prefix' => 'users'], function () { 
     Route::group(['as' => 'comments.', 'prefix' => 'comments'], function () {
         // Route name will be users.comments.show
-        Route::get('{id}', function () { 
+        Route::get('{id}', function () {
             //
         })->name('show');
     });
@@ -390,8 +398,9 @@ Route::group(['as' => 'users.', 'prefix' => 'users'], function () {
 > 有三种不同的方式来返回视图。到目前，只是控制器自己使用过 `view()`， 但你曾可能看到过 `View::make()` 的话，它和 `view()` 做的事是一样的，还可以使用*注入*的方式 `Illuminate\View\ViewFactory`。
 
 *view()的简单使用*
-```
-Route::get('/', function () { 
+
+```php
+Route::get('/', function () {
     return view('home');
 });
 ```
@@ -401,19 +410,21 @@ Route::get('/', function () {
 但是如果你需要传递变量呢？ 来看下面的例子
 
 *传递变量到模板*
-```
+
+```php
 Route::get('tasks', function(){
     return view('tasks.index')
         ->with('tasks', Task::all());
 });
 ```
 
-### 使用 `View Composers` 与每一个视图共享变量
+### 使用视图组合 与每一个视图共享变量
 
 有时候一遍又一遍的传递同样的变量到模板会感觉很麻烦。这个变量可能是网站的每个视图都要访问的，或者是某一类视图，再或者是一些子视图，比如 所有的视图都会用到的 header 。 
 
 *视图共享变量*
-```
+
+```php
 view()->share('variableName', 'variableValue');
 ```
 
@@ -431,7 +442,7 @@ view()->share('variableName', 'variableValue');
 
 来创建一个控制器，最简单的方式就是通过 Artisan 命令，在命令里运行如下命令
 
-```
+```shell
 php srtisan make:controller TasksController
 ```
 
@@ -443,15 +454,16 @@ php srtisan make:controller TasksController
 这条命令会在 `app/Http/Controllers` 目录下创建一个名为 `TasksController.php` 的新文件，同时包含一下内容
 
 *默认生成的控制器*
-```
+
+```php
 <?php
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use App\Http\Requests;
 
-class TasksController extends Controller 
+class TasksController extends Controller
 {
 }
 ```
@@ -459,16 +471,17 @@ class TasksController extends Controller
 修改这个文件然后增加一个新的方法 `home()`， 返回一些简单的文本
 
 *简单的控制器*
-```
+
+```php
 <?php
 
 use App\Http\Controllers\Controller;
 
-class TasksController extends Controller 
+class TasksController extends Controller
 {
-    public function home() 
+    public function home()
     {
-        return 'Hello, World!'; 
+        return 'Hello, World!';
     }
 }
 ```
@@ -476,7 +489,8 @@ class TasksController extends Controller
 这个之前有学过，来看下如何把一个路由绑定到这个控制器上。
 
 *路由和控制器绑定*
-```
+
+```php
 <?php
 
 Route::get('/', 'TasksController@home');
@@ -492,12 +506,13 @@ Route::get('/', 'TasksController@home');
 控制器方法最常用的用法如下
 
 *常用的控制器方法*
-```
+
+```php
 // TasksController.php
 ...
-public function index() 
+public function index()
 {
-    return view('tasks.index') 
+    return view('tasks.index')
         ->with('tasks', Task::all());
 }
 ```
@@ -512,7 +527,8 @@ public function index()
 在控制器方法里第二个最常用的动作就是获取用户输入的参数并使用它。这里引入了一些新的概念，来看下代码
 
 *基本的动作绑定*
-```
+
+```php
 // routes/web.php
 Route::get('tasks/create', 'TasksController@create');
 Route::post('tasks', 'TasksController@store');
@@ -520,15 +536,16 @@ Route::post('tasks', 'TasksController@store');
 
 注意这里我们绑定了 `GET` 动作到 `tasks/create` (显示表单), `POST` 动作绑定到了 `tasks/` (当创建任务的时候POST数据)。我们假设 `create()` 方法只显示表一个form表单，所以来看下 `store()` 方法。
 
-*通用表单输入控制器的方法
-```
+*通用表单输入控制器的方法*
+
+```php
 // TasksController.php
 ...
-public function store() 
+public function store()
 {
     $task = new Task;
     $task->title = Input::get('title'); 
-    $task->description = Input::get('description'); 
+    $task->description = Input::get('description');
     $task->save();
 
     return redirect('tasks'); }
@@ -540,26 +557,26 @@ public function store()
 
 > *关于导入facade*
 > 运行上面的代码你可能发现会报 `Input` facade找不到，这是因为它们(facade)不会出现在每一个 `namespace` 下。但在根命名空间下是有效的。所以我们需要在文件顶部导入 `Input` facade。有两种方式导入: `\Input` 或 `Illuminate\Support\Facades\Input`。如
-> ```
+> ```php
 > <?php
 > namespace App\Http\Controllers;
 > 
 > use Illuminate\Support\facades\Input;
 > // or \Input
 > 
-> class TasksController 
+> class TasksController
 > {
->     public function store() 
+>     public function store()
 >     {
 >         $task = new Task;
->         $task->title = Input::get('title'); 
->         $task->description = Input::get('description'); 
+>         $task->title = Input::get('title');
+>         $task->description = Input::get('description');
 >         $task->save();
 > 
->         return redirect('tasks'); 
+>         return redirect('tasks');
 >     }
 > }
-```
+> ```
 
 ### 依赖注入到控制器
 
@@ -573,17 +590,18 @@ Laravel的 `facade` 为Laravel的代码库中最有用的类提供了一个简�
 下面有一个很好的例子，如果你希望有一个 `Request` 对象的实例， 而不是使用 `facade`， 那该怎么办？ 可以仅仅键入 `Illuminate\Http\Request` 在方法参数里，如
 
 *控制器方法注入*
-```
+
+```php
 // TasksController.php
 ...
-public function store(\Illuminate\Http\Request $request) 
+public function store(\Illuminate\Http\Request $request)
 {
     $task = new Task;
-    $task->title = $request->input('title'); 
-    $task->description = $request->input('description'); 
+    $task->title = $request->input('title');
+    $task->description = $request->input('description');
     $task->save();
-    
-    return redirect('tasks'); 
+
+    return redirect('tasks');
 }
 ```
 
@@ -595,7 +613,7 @@ public function store(\Illuminate\Http\Request $request)
 
 想要看Laravle资源控制器提供的方法，我们可以通过命令行来生成一个
 
-```
+```shell
 php artisan make:controller MySampleResourseController --resource
 ```
 
@@ -622,7 +640,8 @@ php artisan make:controller MySampleResourseController --resource
 如我们看到的，这些是在 Laravel中使用的 传统路由名称，并且很容易为每个这些默认路由生成一个资源控制器和方法。幸运的是，你不必手动为每一个控制器方法生成路由。代替的是，这里有一个叫做资源绑定的动动。
 
 *资源控制器绑定*
-```
+
+```php
 // routes/web.php
 Route::resource('tasks', 'TasksController');
 ```
@@ -634,7 +653,8 @@ Route::resource('tasks', 'TasksController');
 最常用的路由模式之一就是在任何控制器方法的第一行就去通过给定的ID查找资源，比如
 
 *获取资源*
-```
+
+```php
 Route::get('conferences/{id}', function($id) {
     $conference = Conference::findOrFail($id);
 });
@@ -649,26 +669,28 @@ Laravel提供了一种简化称为“路由模型绑定”的模式的功能。
 使用路由模型绑定最简单的方式是为该模型指定唯一的路由参数(例如：将其命名为 `$conference` 而不是 `$id`), 然后在闭包/控制器的方法里键入这个参数，并使用同名的变量就可以了。如
 
 *使用隐式的路由模型绑定*
-```
+
+```php
 Route::get('conferences/{conference}', function (Conference $conference) { 
     return view('conferences.show')->with('conference', $conference);
 });
 ```
+
 由于路由参数(`{conference}`)和方法参数名($conference)一样， 方法参数键入时带有 `Conference` model(Conference $conference)， Laravel看到这个会作为一个路由模型绑定。每次这个路由被访问到的时候，应用都会假设无论传入什么到URL，都会用 ID来替代 `{conference}`，然后通过ID去到对应的 `Conference` model里查找。`Conference`实例都会被转入闭包或者控制器方法里。
 
 > 隐式路由模型绑定是在 Laravel 5.2版本中加入的，所以在 5.1 版本里是没法是没法使用的。
-
 
 ### 自定义路由模型绑定
 
 要手动的配置路由模型绑定，可以添加 像下面的一行到文件 `App\Providers\RouteServiceProvider` 的 `boot()` 方法里。
 
 *添加路由模型绑定*
-```
-public function boot(Router $router) 
+
+```php
+public function boot(Router $router)
 {
     parent::boot($router);
-    
+
     // Perform the binding
     $router->model('event', Conference::class);
 }
@@ -677,7 +699,8 @@ public function boot(Router $router)
 现在你已经定义了每当路由的定义中有一个名为 `{event}` 的参数时，路由解析器将返回具有该URL参数的ID的Conference类实例。
 
 *显式路由模型绑定*
-```
+
+```php
 Route::get('events/{event}', function (Conference $event) { 
     return view('events.show')->with('event', $event);
 });
@@ -718,7 +741,8 @@ JavaScript 框架发送其他的请求很容易，像 `DELETE` `PATCH`。但你�
 看下面这个例子，因为它通过Laravel传递 `DELETE` 方法，将匹配 `Route::delete()` 定义的路由，但不会匹配 `Route::post()` 路由。
 
 *表单方法欺骗*
-```
+
+```html
 <form action="/tasks/1" method="POST">
     <input type="hidden" name="_method" value="DELETE">
 </form>
@@ -737,7 +761,8 @@ JavaScript 框架发送其他的请求很容易，像 `DELETE` `PATCH`。但你�
 你有两个选择来解决这个问题。首先，首选的方法是将_token输入添加到每个提交中。 在HTML表单中，这很简单，如
 
 *CSRF tokens*
-```
+
+```html
 <form action="/tasks/5" method="POST">
     <?php echo csrf_field(); ?>
     <!-- or: -->
@@ -747,14 +772,15 @@ JavaScript 框架发送其他的请求很容易，像 `DELETE` `PATCH`。但你�
 
 在JavaScript应用程序中，可能有点多，但还好。 使用JavaScript框架的网站最常见的解决方案是将标记存储在每个页面的 `<meta>` 标记中，如下所示：
 
-```
+```html
 <meta name="csrf-token" content="<?php echo csrf_token(); ?>" id="token">
 ```
 
 将标记存储在 `<meta>` 标记中可以很容易地将其绑定到正确的HTTP header，对于来自JavaScript框架的所有请求，你可以全局执行一次，如下所示。
 
 *把CSRF全局绑定到header*
-```
+
+```javascript
 // in jQuery:
 $.ajaxSetup({
     headers: {
@@ -767,7 +793,7 @@ Vue.http.interceptors.push((request, next) => {
     request.headers['X-CSRF-TOKEN'] =
         document.querySelector('#token').getAttribute('content');
 
-    next(); 
+    next();
 });
 ```
 
@@ -780,7 +806,8 @@ Laravel将根据每个请求检查 `X-CSRF-TOKEN`，并且通过的有效令牌�
 首先，我们介绍重定向。 有两种常见的方法来生成重定向; 我们将在这里使用重定向全局helper，但你可能更喜欢facade。 两者都创建一个`Illuminate\Http\RedirectResponse` 的实例，对其执行一些便利方法，然后返回它。 你也可以手动做到这一点，但你必须自己做更多的工作。 看下面的例子，看看几种可以返回重定向的方法。
 
 *返回重定向的几种方式*
-```
+
+```php
 // 使用全局helper生成 redirect response
 Route::get('redirect-with-helper', function () { 
     return redirect()->to('login');
@@ -803,22 +830,23 @@ Route::get('redirect-with-facade', function () {
 
 先来看下参数说明
 
-```
+```php
 function to($to = null, $status = 302, $headers = [], $secure = null)
 ```
 
- - `$to` 有效的内部路径
- - `$status` HTTP状czzZ态码(默认是 `302 FOUND`)
- - `$headers` 跳转时携带的HTTP header
- - `$secure` 是 http还是https
+- `$to` 有效的内部路径
+- `$status` HTTP状czzZ态码(默认是 `302 FOUND`)
+- `$headers` 跳转时携带的HTTP header
+- `$secure` 是 http还是https
 
 *redirect()->to()*
-```
-Route::get('redirect', function () { 
+
+```php
+Route::get('redirect', function () {
      return redirect()->to('home');
 
     // 简短用法
-    return redirect('home'); 
+    return redirect('home');
 });
 
 ```
@@ -828,7 +856,8 @@ Route::get('redirect', function () {
 `route()` 方法和 `to()` 方法相同，但不指向特定路径，而是指向特定的路由名称。
 
 *redirect()->route()*
-```
+
+```php
 Route::get('redirect', function () {
     return redirect()->route('conferences.index');
 });
@@ -836,12 +865,13 @@ Route::get('redirect', function () {
 
 请注意，由于某些路由名称需要参数，因此其参数顺序稍有不同。`route()` 有第二个可选的参数作为路由参数。
 
-```
+```php
 function route($to = null, $parameters = [], $status = 302, $headers = [])
 ```
 
 *带参数的redirect()->route()*
-```
+
+```php
 Route::get('redirect', function () {
     return redirect()->route('conferences.show', ['conference' => 99]);
 });
@@ -855,12 +885,12 @@ Route::get('redirect', function () {
 
 重定向服务提供了其他不太常用的方法，这里也说明下作用：
 
- - `home()` 重定向到一个名为 `home` 的路由。
- - `refresh()` 重定向到用户当前所在的同一页面。
- - `away()` 允许在没有默认网址验证的情况下重定向到外部网址。
- - `secure()` 类似于 `to()`，只是将安全参数设置为 `true`。
- - `action()` 允许链接到控制器和方法，如 `redirect()->action('MyController@myMethod')`。
- - `guest()` 验证用户是否登录
+- `home()` 重定向到一个名为 `home` 的路由。
+- `refresh()` 重定向到用户当前所在的同一页面。
+- `away()` 允许在没有默认网址验证的情况下重定向到外部网址。
+- `secure()` 类似于 `to()`，只是将安全参数设置为 `true`。
+- `action()` 允许链接到控制器和方法，如 `redirect()->action('MyController@myMethod')`。
+- `guest()` 验证用户是否登录
 
 ### redirect()->with()
 
@@ -869,7 +899,8 @@ Route::get('redirect', function () {
 大多数情况下，你可以传递键值对的数组，或者使用 `with()` 来传递一个键和值，如
 
 *带有数据重定向*
-```
+
+```php
 // 单个的键和值
 Route::get('redirect-with-key-value', function () { 
     return redirect('dashboard')
@@ -886,7 +917,8 @@ Route::get('redirect-with-array', function () {
 你还可以使用 `withInput()` 来重定向用户的表单输入; 在验证错误的情况下，这是最常见的情况，你希望将用户发回到刚刚来自的表单。
 
 *重定向与表单输入*
-```
+
+```php
 Route::get('form', function () { 
     return view('form');
 });
@@ -900,13 +932,13 @@ Route::post('form', function () {
 
 获取使用 `withInput()` 传递的闪存输入的最简单方法是使用 `old()` 助手，该助手可用于获取所有旧输入（`old()`）或仅用于特定键的值（ `old（'username'）`，第二个参数作为默认值，如果没有旧值）。 你通常会在视图中看到这个，它允许在这个表单的 create 和 edit 视图中使用这个HTML：
 
-```
+```html
 <input name="username" value="<?=old('username', 'Default username instructions here');?>">
 ```
 
 说到验证，还有一个有用的方法来将错误与重定向响应一起传递：`withErrors()`。 你可以传递任何错误的 "提供者"，这可能是一个错误字符串，一个错误数组，或者最常见的是一个 `Illuminate` Validator的实例，来看例子。
 
-```
+```php
 Route::post('form', function () {
     $validator = Validator::make($request->all()), $this->validationRules);
 
@@ -925,7 +957,7 @@ Route::post('form', function () {
 除了返回视图和重定向之外，退出路由的最常见方式是中止。 有几个全局可用的方法 (`abort()`，`abort_if()` 和 `abort_unless()`），它们将HTTP状态代码，消息和头数组作为可选参数。
 下面的例子中，`abort_if()` 和 `abort_unless()` 取第一个参数，它的真实性得到评估，并根据结果执行取消操作。
 
-```
+```php
 Route::post('something-you-cant-do', function (Illuminate\Http\Request) { 
     abort(403, 'You cannot do that!'); 
     abort_unless($request->has('magicToken'), 403); 
@@ -955,8 +987,3 @@ Route::post('something-you-cant-do', function (Illuminate\Http\Request) {
 Laravel的路由在 `routes/web.php` 和 `routes/api.php` 中定义，你可以在其中定义每个路由的预期路径，哪些段是静态的，哪些是参数，HTTP动词可以访问路由，以及如何解决。 你还可以将中间件附加到路由，对它们进行分组，并给它们命名。
 从路由闭包或控制器方法返回的内容指示Laravel如何响应用户。 如果它是一个字符串或视图，它会呈现给用户; 如果是其他类型的数据，则将其转换为JSON并呈现给用户; 如果它是重定向，它会强制重定向。
 Laravel提供了一系列工具和便利来简化常见的路由相关任务和结构。 这些包括资源控制器，路由模型绑定和表单方法欺骗。
-
-
-
-
-
